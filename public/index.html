@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="day">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f6f1e7">
+<title>香港 2 天 · 9/25–9/26</title>
+<link rel="icon" href="data:,">
+<style>
+:root{
+  --water:#cfe4ec; --land:#f0e6d2; --landline:#c8b18a;
+  --d1:#d1731f; --d2:#1f7f96;
+  --radius:16px;
+}
+html[data-theme="day"]{
+  --bg:#f6f1e7; --card:#fffdf8; --card2:#faf5ea;
+  --text:#26221c; --muted:#7a6f5d; --line:#e2d8c4;
+  --pill:#f3e3cd; --pilltx:#8a5a17;
+  --water:#cfe4ec; --land:#f0e6d2; --landline:#c8b18a;
+  --d1:#d1731f; --d2:#1f7f96;
+  --shadow:0 1px 2px rgba(90,70,40,.08),0 8px 24px rgba(90,70,40,.07);
+}
+html[data-theme="night"]{
+  --bg:#12141a; --card:#1a1d24; --card2:#20242c;
+  --text:#e9e6e0; --muted:#9a978f; --line:#2c313b;
+  --pill:#2f3542; --pilltx:#ffcc8a;
+  --water:#1a2733; --land:#232732; --landline:#3b4252;
+  --d1:#f0994a; --d2:#46b8d4;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font:16px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  padding:0 0 40px;
+  transition:background .3s,color .3s;
+}
+.wrap{max-width:720px;margin:0 auto;padding:0 14px}
+a{color:inherit}
+
+/* ---------- hero ---------- */
+.hero{padding:22px 0 6px}
+.hero .top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.trip-title{font-size:20px;font-weight:700;letter-spacing:.5px;margin:0}
+.trip-sub{color:var(--muted);font-size:13px;margin:3px 0 0}
+.tzbtn{background:var(--card);border:1px solid var(--line);color:var(--text);
+  border-radius:999px;width:38px;height:38px;font-size:17px;line-height:1;cursor:pointer;flex:0 0 auto}
+.now{margin-top:14px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:16px 16px 14px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.now:before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:linear-gradient(var(--d1),var(--d2))}
+.eyebrow{font-size:12px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+.nowttl{font-size:18px;font-weight:700;margin:6px 0 2px;line-height:1.35}
+.nowsub{color:var(--muted);font-size:13px}
+.cd{display:flex;gap:6px;margin:14px 0 2px}
+.cd .u{flex:1;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:8px 2px;text-align:center}
+.cd .n{font-size:26px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+.cd .l{font-size:11px;color:var(--muted);margin-top:2px}
+.clockrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;font-size:12px;color:var(--muted)}
+.clockrow span{background:var(--card2);border:1px solid var(--line);border-radius:8px;padding:3px 8px}
+
+/* ---------- sections ---------- */
+section{margin-top:26px}
+h2{font-size:16px;margin:0 0 10px;letter-spacing:1px;display:flex;align-items:center;gap:8px}
+h2 .dot{width:8px;height:8px;border-radius:50%;background:var(--d1);display:inline-block}
+h2 .dot.b{background:var(--d2)}
+.note-top{color:var(--muted);font-size:12.5px;margin:-4px 0 12px}
+
+/* ---------- map ---------- */
+.mapbox{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:8px;box-shadow:var(--shadow)}
+.mapbox svg{display:block;width:100%;height:auto;border-radius:12px}
+.legend{display:flex;flex-wrap:wrap;gap:14px;padding:10px 6px 4px;font-size:12.5px;color:var(--muted)}
+.legend i{display:inline-block;width:16px;height:0;border-top:3px solid;vertical-align:middle;margin-right:5px;border-radius:2px}
+.lg1 i{border-color:var(--d1)} .lg2 i{border-color:var(--d2)}
+.house{font-size:12.5px;color:var(--muted);padding:2px 6px 6px}
+
+/* ---------- booked ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:13px 14px;box-shadow:var(--shadow);margin-bottom:10px}
+.card .k{font-size:11px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase}
+.card .v{font-size:16px;font-weight:700;margin:4px 0 6px;line-height:1.4}
+.card .meta{font-size:13.5px;color:var(--muted);line-height:1.7}
+.card .meta b{color:var(--text);font-weight:600}
+.rowlinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;text-decoration:none;
+  background:var(--card2);border:1px solid var(--line);color:var(--text);
+  border-radius:999px;padding:6px 12px;white-space:nowrap}
+.btn.g{border-color:var(--d1);color:var(--d1)}
+.btn.a{border-color:var(--d2);color:var(--d2)}
+.btn.wide{background:var(--d2);border-color:var(--d2);color:#fff;font-weight:600;padding:9px 16px;font-size:13.5px}
+html[data-theme="night"] .btn.wide{color:#101418}
+
+/* ---------- day ---------- */
+.dayhead{margin-top:26px}
+.daybar{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:12px 14px;box-shadow:var(--shadow)}
+.daybar .dname{font-weight:700;font-size:16px}
+.daybar .ddate{color:var(--muted);font-size:12.5px}
+.daybar .bar{width:4px;height:26px;border-radius:3px;flex:0 0 auto}
+.b1{background:var(--d1)} .b2{background:var(--d2)}
+details{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  margin-top:10px;overflow:hidden;box-shadow:var(--shadow)}
+details summary{cursor:pointer;padding:12px 14px;font-size:13.5px;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details summary::-webkit-details-marker{display:none}
+details summary .ar{transition:transform .2s;color:var(--muted);font-size:12px}
+details[open] summary .ar{transform:rotate(90deg)}
+.dbody{padding:0 10px 12px}
+ol.sched{list-style:none;margin:10px 0 0;padding:0}
+li.ev{display:grid;grid-template-columns:52px 1fr;gap:10px;padding:11px 0;border-top:1px dashed var(--line)}
+li.ev:first-child{border-top:0}
+.tm{font-variant-numeric:tabular-nums;font-weight:700;font-size:14px;color:var(--muted);padding-top:1px}
+.ttl{font-weight:600;font-size:15px;line-height:1.45}
+.ttl a{text-decoration:none;border-bottom:1px dotted var(--muted)}
+.note{color:var(--muted);font-size:13px;margin-top:3px;line-height:1.65}
+.pill{display:inline-block;font-size:11px;background:var(--pill);color:var(--pilltx);
+  border-radius:999px;padding:1.5px 8px;margin-left:6px;vertical-align:1px;font-weight:600}
+.rowlinks.sm{margin-top:7px}
+.rowlinks.sm .btn{padding:4px 10px;font-size:12px}
+
+/* ---------- todo ---------- */
+ul.todo{margin:0;padding-left:22px}
+ul.todo li{margin-bottom:10px;line-height:1.65}
+ul.todo li b{font-weight:600}
+.todohint{color:var(--muted);font-size:12.5px;margin-top:12px}
+
+/* ---------- tips ---------- */
+ul.tips{margin:0;padding-left:22px}
+ul.tips li{margin-bottom:9px;line-height:1.65;font-size:14.5px}
+footer{margin-top:34px;text-align:center;color:var(--muted);font-size:12px;line-height:1.8}
+.stops circle{stroke-width:2}
+.mlbl{font-size:9.5px;fill:var(--text);paint-order:stroke;stroke:var(--card);stroke-width:2.6px;stroke-linejoin:round}
+.num{font-size:9px;font-weight:700;fill:#fff}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="top">
+      <div>
+        <h1 class="trip-title">香港 2 天</h1>
+        <p class="trip-sub">9/25（五）–9/26（六）· 2 人 · 中秋</p>
+      </div>
+      <button class="tzbtn" id="themeBtn" title="切换配色">☾</button>
+    </div>
+
+    <div class="now">
+      <div class="eyebrow" id="eyebrow">此刻关注</div>
+      <div class="nowttl" id="nowTtl">—</div>
+      <div class="nowsub" id="nowSub">—</div>
+      <div class="cd" id="cd">
+        <div class="u"><div class="n" id="cdD">–</div><div class="l">天</div></div>
+        <div class="u"><div class="n" id="cdH">–</div><div class="l">时</div></div>
+        <div class="u"><div class="n" id="cdM">–</div><div class="l">分</div></div>
+        <div class="u"><div class="n" id="cdS">–</div><div class="l">秒</div></div>
+      </div>
+      <div class="clockrow">
+        <span id="hkClock">香港时间 —:—</span>
+        <span id="localClock">你所在的时区 —:—</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <section>
+      <h2><i class="dot"></i>行程总览地图</h2>
+      <p class="note-top">第一天是暖色线，第二天是青色线。住的地方在文匯街（油麻地渡船角），两晚都在这儿。</p>
+      <div class="mapbox" id="bigmap"></div>
+      <div class="legend">
+        <span class="lg1"><i></i>Day 1 · 9/25</span>
+        <span class="lg2"><i></i>Day 2 · 9/26</span>
+        <span>⌂ 住宿</span>
+        <span>▣ 行李寄存</span>
+        <span>铁 高铁站</span>
+        <span>☰ 落日飞车</span>
+      </div>
+      <div class="house">🏠 住宿：文匯街（油麻地渡船角）· 9/25 入住、9/26 退房</div>
+    </section>
+
+    <section>
+      <h2><i class="dot"></i>已确认</h2>
+      <p class="note-top">时间均为香港时间（UTC+8）。页面里不写订单号、证件号、房间号。</p>
+      <div id="booked"></div>
+    </section>
+
+    <section class="dayhead">
+      <div class="daybar">
+        <span class="bar b1"></span>
+        <div>
+          <div class="dname">Day 1 · 9 月 25 日（周五）</div>
+          <div class="ddate">厦门 → 深圳北 → 香港 · 中秋</div>
+        </div>
+      </div>
+      <details id="d1map">
+        <summary><span>展开当日路线地图 · 一键全天多点导航</span><span class="ar">▶</span></summary>
+        <div class="dbody">
+          <div id="map1"></div>
+          <div class="rowlinks"><a class="btn wide" id="navD1" href="#">🧭 一键打开 Day 1 全天导航</a></div>
+        </div>
+      </details>
+      <ol class="sched" id="s1"></ol>
+    </section>
+
+    <section class="dayhead">
+      <div class="daybar">
+        <span class="bar b2"></span>
+        <div>
+          <div class="dname">Day 2 · 9 月 26 日（周六）</div>
+          <div class="ddate">港岛半日 · 傍晚回程 · 中秋翌日公众假期</div>
+        </div>
+      </div>
+      <details id="d2map">
+        <summary><span>展开当日路线地图 · 一键全天多点导航</span><span class="ar">▶</span></summary>
+        <div class="dbody">
+          <div id="map2"></div>
+          <div class="rowlinks"><a class="btn wide" id="navD2" href="#">🧭 一键打开 Day 2 全天导航</a></div>
+        </div>
+      </details>
+      <ol class="sched" id="s2"></ol>
+    </section>
+
+    <section>
+      <h2><i class="dot"></i>待办清单</h2>
+      <ul class="todo">
+        <li><b>订两天的行李寄存</b> —— 柯士甸站／西九龙站附近的寄存点（存知己、途简单、行李记这类小程序都能查），约 20 元/天，营业时间 10:00–21:00。9/25 和 9/26 各一次。</li>
+        <li><b>落日飞车 H2K 买票</b> —— 中秋夜人多，建议提前在城巴 App 买；上车点是中环天星码头。</li>
+        <li><b>出发前跟房东 Chole 确认入住方式</b> —— 门锁／密码怎么给，几点能联系上。</li>
+        <li><b>准备支付方式</b> —— 港币现金 ＋ 八达通或支付宝 HK。华嫂冰室尖沙咀店在 OpenRice 上标的收款方式是现金／AlipayHK／支付宝／八达通，<b>没写微信支付</b>，别到门口才发现付不了。</li>
+        <li><b>手机漫游或香港 eSIM</b> —— 全程要用地图导航，流量别断。</li>
+        <li><b>相机</b> —— 定好机型和预算上限；买的时候问清保修和发票（回内地保修要用）。</li>
+      </ul>
+      <p class="todohint">办完一项跟我说一声，我改页面。</p>
+    </section>
+
+    <section>
+      <h2><i class="dot"></i>实用贴士</h2>
+      <ul class="tips">
+        <li>全页时间都是<b>香港时间（UTC+8）</b>。倒计时按绝对时刻计算，你在任何时区打开都不会算错。</li>
+        <li>9/25 是<b>中秋节</b>，9/26 是香港<b>公众假期</b>（中秋節翌日）。人流、排队、车费都按峰值算，别按平时估。</li>
+        <li><b>深圳北换乘</b>：去程 36 分钟、回程 32 分钟，都在站内换乘。回程的入境手续在西九龙站就办完了，到深圳北算国内到达，不用再过关。</li>
+        <li><b>去程风险点</b>：D2403 晚点超过 10 分钟就可能赶不上 G5619。深圳北当天 11:00 之后去西九龙的车很多，真赶不上就现场改签。</li>
+        <li><b>西九龙站往内地</b>要在一地两检前留足时间，官方建议提前 45 分钟；9/26 是假期，建议留 1 小时。</li>
+        <li><b>交通参考</b>：佐敦 → 中环（荃湾线过海）约 10 分钟；中环 → 坚尼地城（港岛线）约 12 分钟；尖沙咀 ↔ 中环 天星小轮约 8 分钟；旺角 ↔ 尖沙咀（荃湾线）约 6 分钟。</li>
+        <li><b>紧急电话 999</b>（警察／消防／救护）。</li>
+        <li>9 月香港仍可能有台风，出发前看一眼香港天文台。</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer>
+    9/25–9/26 · 香港 2 天 · 2 人<br>
+    点击任意地点可唤起地图导航
+  </footer>
+</div>
+
+<script>
+/* ============ 基础数据 ============ */
+const HK='Asia/Hong_Kong';
+
+const P={
+  xiamen:  {name:'厦门站',                 lat:24.47213,lng:118.10936,addr:'厦门市思明区厦禾路'},
+  szn:     {name:'深圳北站',               lat:22.61315,lng:114.02525,addr:'深圳市龙华区民治街道'},
+  westkln: {name:'香港西九龙站',           lat:22.30368,lng:114.16493,addr:'九龙 西九龙 连翔道'},
+  austin:  {name:'柯士甸站（行李寄存）',   lat:22.30629,lng:114.16454,addr:'九龙 渡船角 佐敦道'},
+  home:    {name:'住宿 · 文匯街',          lat:22.30681,lng:114.16647,addr:'九龙 油麻地 渡船角 文匯街'},
+  simcity: {name:'星际城市 Sim City',      lat:22.31762,lng:114.17014,addr:'九龙 旺角 山東街（彌敦道交界）'},
+  waso:    {name:'华嫂冰室（尖沙咀店）',   lat:22.29951,lng:114.17292,addr:'九龙 尖沙咀 加連威老道10號 加威中心地下',tel:'2259 9318'},
+  kpark:   {name:'九龙公园',               lat:22.30053,lng:114.17012,addr:'九龙 尖沙咀（彌敦道／柯士甸道）'},
+  tstpier: {name:'尖沙咀天星码头',         lat:22.29354,lng:114.16799,addr:'九龙 尖沙咀 梳士巴利道'},
+  cenpier: {name:'中环天星码头',           lat:22.28704,lng:114.16119,addr:'香港岛 中环 民光街'},
+  wheel:   {name:'中环摩天轮',             lat:22.28532,lng:114.16177,addr:'香港岛 中环海滨',tel:'2339 0777'},
+  hkpark:  {name:'香港公园',               lat:22.27742,lng:114.16151,addr:'香港岛 中环／金钟 红棉路一带'},
+  kt:      {name:'坚尼地城站 C 出口',      lat:22.28121,lng:114.12889,addr:'香港岛 坚尼地城（篮球场机位）'},
+  ymtps:   {name:'旧油麻地警署',           lat:22.30953,lng:114.16854,addr:'九龙 油麻地 廣東道627號'}
+};
+
+const D1=[
+ {t:'2026-09-25T04:40:00+08:00',x:'从家出发 → 厦门站',n:'6:24 的车，建议 5:20 前到站'},
+ {t:'2026-09-25T06:24:00+08:00',x:'D2403　厦门 → 深圳北',n:'二等座 2 张 · 09:59 抵达深圳北',p:'xiamen'},
+ {t:'2026-09-25T09:59:00+08:00',x:'抵达深圳北 · 站内换乘',n:'换乘 36 分钟，站内便捷换乘、不用过关。晚点超过 10 分钟就改乘 11:00 之后的班次',p:'szn',b:'换乘 36 分钟'},
+ {t:'2026-09-25T10:35:00+08:00',x:'G5619　深圳北 → 香港西九龙',n:'2 张 · 10:56 抵达香港',p:'szn'},
+ {t:'2026-09-25T10:56:00+08:00',x:'西九龙站 · 一地两检入境',n:'中秋假期，入境排队按 40 分钟算',p:'westkln'},
+ {t:'2026-09-25T12:00:00+08:00',x:'柯士甸站 寄存行李',n:'站外约 100 米的第三方寄存点，约 20 元/天，营业 10:00–21:00',p:'austin',b:'需提前订'},
+ {t:'2026-09-25T12:30:00+08:00',x:'星际城市 买相机',n:'店 12:00 开档，你 12:30 到正好。买完问清保修和发票',p:'simcity',b:'第一站'},
+ {t:'2026-09-25T14:00:00+08:00',x:'华嫂冰室（尖沙咀店）',n:'加連威老道 10 號加威中心地下 · 08:00–22:00 · 2259 9318 · 中秋排队留 40 分钟以上',p:'waso'},
+ {t:'2026-09-25T15:15:00+08:00',x:'九龙公园',n:'免费 · 从华嫂步行约 5 分钟 · 园内有百鸟苑和鸟湖',p:'kpark'},
+ {t:'2026-09-25T16:15:00+08:00',x:'回柯士甸取行李',n:'取完走到文匯街约 8 分钟',p:'austin'},
+ {t:'2026-09-25T16:30:00+08:00',x:'文匯街 民宿入住',n:'Airbnb · 房东 Chole · 15:00 后可入住',p:'home'},
+ {t:'2026-09-25T17:45:00+08:00',x:'旧油麻地警署 拍照',n:'廣東道 627 號 · 离住处步行约 10 分钟 · 外面拍免费，里面那个展览才要买票',p:'ymtps'},
+ {t:'2026-09-25T18:30:00+08:00',x:'尖沙咀维港 · 中秋夜',n:'警署走到佐敦站，荃湾线 1 站到尖沙咀 · 海滨人多，注意人流管制',p:'tstpier'},
+ {t:'2026-09-25T20:00:00+08:00',x:'天星小轮 过海',n:'尖沙咀 → 中环，约 8 分钟，下船就是摩天轮和中环天星码头',p:'tstpier'},
+ {t:'2026-09-25T20:30:00+08:00',x:'落日飞车 H2K 夜游开篷巴士',n:'中环天星码头上车 · 18:30–22:30 每 30 分钟一班 · 单程约 $47.6、夜游票约 $114，随上随下',p:'cenpier',b:'建议提前买票'},
+ {t:'2026-09-25T22:00:00+08:00',x:'回油麻地住处',n:'中环 → 佐敦（荃湾线过海，约 10 分钟）再走回文匯街；也可以坐天星小轮回尖沙咀'}
+];
+
+const D2=[
+ {t:'2026-09-26T11:00:00+08:00',x:'退房',n:'文匯街 · 房东 11:00 退房',p:'home'},
+ {t:'2026-09-26T11:20:00+08:00',x:'柯士甸站 寄存行李',n:'今天要玩到下午才进站，行李先存这儿，回西九龙站顺路取',p:'austin',b:'需提前订'},
+ {t:'2026-09-26T12:00:00+08:00',x:'香港公园',n:'免费 · 中环／金钟之间 · 从佐敦坐荃湾线过海到中环再走上去',p:'hkpark'},
+ {t:'2026-09-26T13:15:00+08:00',x:'中环摩天轮',n:'中环海滨 · 成人 $20 · 假期 11:00–23:00（最后入场为关门前 30 分钟）· 2339 0777',p:'wheel',b:'现场购票'},
+ {t:'2026-09-26T14:30:00+08:00',x:'坚尼地城 拍「路的尽头是海」',n:'港岛线中环 → 坚尼地城约 12 分钟。C 出口出来走过足球场到篮球场，球场朝海那面围栏是最佳机位，要长焦',p:'kt'},
+ {t:'2026-09-26T15:00:00+08:00',x:'开始回程',n:'坚尼地城 → 中环（港岛线）→ 佐敦（荃湾线）→ 柯士甸取行李 → 西九龙站'},
+ {t:'2026-09-26T16:30:00+08:00',x:'进西九龙站 · 一地两检',n:'18:00 发车 · 假期人多，留足 1 小时',p:'westkln',b:'别迟到'},
+ {t:'2026-09-26T18:00:00+08:00',x:'G6524　香港西九龙 → 深圳北',n:'2 张 · 18:18 抵达深圳北',p:'westkln'},
+ {t:'2026-09-26T18:50:00+08:00',x:'D676　深圳北 → 厦门',n:'2 张 · 换乘 32 分钟，入境手续已在西九龙办完 · 22:22 抵达厦门站',p:'szn'},
+ {t:'2026-09-26T22:22:00+08:00',x:'抵达厦门站',n:'到家约 23:00',p:'xiamen'}
+];
+
+/* ============ 地图投影 ============ */
+const BB={lngMin:114.122,lngMax:114.182,latMin:22.268,latMax:22.322,W:380,H:367};
+function px(lng){return (lng-BB.lngMin)/(BB.lngMax-BB.lngMin)*BB.W;}
+function py(lat){return (BB.latMax-lat)/(BB.latMax-BB.latMin)*BB.H;}
+function pts(list){return list.map(function(c){return px(c[0]).toFixed(1)+','+py(c[1]).toFixed(1);}).join(' ');}
+function curve(keys){
+  const p=keys.map(function(k){return [px(P[k].lng),py(P[k].lat)];});
+  if(p.length<2)return'';
+  let d='M'+p[0][0].toFixed(1)+','+p[0][1].toFixed(1);
+  for(let i=1;i<p.length;i++){
+    const a=p[i-1],b=p[i],mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2;
+    d+=' Q'+a[0].toFixed(1)+','+a[1].toFixed(1)+' '+mx.toFixed(1)+','+my.toFixed(1);
+  }
+  const L=p[p.length-1];
+  d+=' T'+L[0].toFixed(1)+','+L[1].toFixed(1);
+  return d;
+}
+/* 海岸线（西→东），陆地多边形 = 海岸线 + 东上角 + 西上角 */
+const KLSHORE=[[114.122,22.3055],[114.130,22.3022],[114.140,22.2996],[114.150,22.2972],[114.156,22.2956],[114.161,22.2946],[114.1665,22.2932],[114.171,22.2926],[114.176,22.2936],[114.182,22.2932]];
+const HKSHR=[[114.122,22.2849],[114.130,22.2843],[114.140,22.2849],[114.150,22.2859],[114.157,22.2866],[114.161,22.2870],[114.166,22.2871],[114.172,22.2873],[114.182,22.2858]];
+
+function landPath(shore,topLat){
+  const a=pts(shore);
+  const east=px(BB.lngMax).toFixed(1)+','+py(topLat).toFixed(1);
+  const west=px(BB.lngMin).toFixed(1)+','+py(topLat).toFixed(1);
+  return 'M'+a+' '+east+' '+west+' Z';
+}
+function baseMap(fid){
+  return `
+  <rect x="0" y="0" width="${BB.W}" height="${BB.H}" rx="12" fill="var(--water)"></rect>
+  <g filter="url(#${fid})" opacity=".5" stroke="var(--landline)" stroke-width="1" fill="none" stroke-linecap="round">
+    <path d="M16,206 q44,-6 88,0 t88,0 t88,0 t88,0"></path>
+    <path d="M16,219 q50,6 100,0 t100,0 t100,0"></path>
+    <path d="M28,231 q44,-6 88,0 t88,0 t88,0"></path>
+  </g>
+  <path d="${landPath(KLSHORE,22.322)}" fill="var(--land)" stroke="var(--landline)" stroke-width="1.6" filter="url(#${fid})"></path>
+  <path d="${landPath(HKSHR,22.268)}" fill="var(--land)" stroke="var(--landline)" stroke-width="1.6" filter="url(#${fid})"></path>
+  <text x="90" y="62" class="mlbl" text-anchor="middle" opacity=".8">九龙</text>
+  <text x="196" y="336" class="mlbl" text-anchor="middle" opacity=".8">香港岛</text>
+  <text x="168" y="222" class="mlbl" text-anchor="middle" opacity=".8">维多利亚港</text>`;
+}
+
+function drawMap(host,routes,marks){
+  const fid='rough_'+host;
+  const r=routes.map(function(rt){
+    return '<path d="'+curve(rt.k)+'" fill="none" stroke="var('+rt.c+')" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" '+(rt.dash?'stroke-dasharray="5 6" opacity=".75"':'')+' filter="url(#'+fid+')"></path>';
+  }).join('');
+  const m=marks.map(function(mk){
+    const o=P[mk.k],x=px(o.lng),y=py(o.lat);
+    const col=mk.c?'var('+mk.c+')':'var(--text)';
+    let g='<g><circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="9.5" fill="'+col+'" stroke="var(--card)" style="stroke-width:2"></circle>'
+      +'<text x="'+x.toFixed(1)+'" y="'+(y+3.2).toFixed(1)+'" class="num" text-anchor="middle">'+mk.n+'</text>';
+    if(mk.l){
+      const left=mk.lp==='l';
+      const tx=left?(x-11):(x+11), ty=y+(mk.ldy||3.6);
+      g+='<text x="'+tx.toFixed(1)+'" y="'+ty.toFixed(1)+'" class="mlbl" text-anchor="'+(left?'end':'start')+'">'+mk.l+'</text>';
+    }
+    return g+'</g>';
+  }).join('');
+  const svg='<svg viewBox="0 0 '+BB.W+' '+BB.H+'" xmlns="http://www.w3.org/2000/svg">'
+    +'<defs><filter id="'+fid+'" x="-6%" y="-6%" width="112%" height="112%">'
+    +'<feTurbulence type="fractalNoise" baseFrequency="0.022 0.03" numOctaves="2" seed="9" result="n"></feTurbulence>'
+    +'<feDisplacementMap in="SourceGraphic" in2="n" scale="3.4" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>'
+    +'</filter></defs>'
+    +baseMap(fid)+r+m+'</svg>';
+  document.getElementById(host).innerHTML=svg;
+}
+
+/* ============ 导航链接 ============ */
+function isIOS(){return /iPad|iPhone|iPod/.test(navigator.platform||'')||(/Mac/.test(navigator.platform||'')&&navigator.maxTouchPoints>1);}
+function gLink(keys){
+  const p=keys.map(function(k){return P[k].lat+','+P[k].lng;});
+  if(p.length===1)return'https://www.google.com/maps/dir/?api=1&destination='+p[0]+'&travelmode=transit';
+  let u='https://www.google.com/maps/dir/?api=1&origin='+p[0]+'&destination='+p[p.length-1]+'&travelmode=transit';
+  if(p.length>2)u+='&waypoints='+p.slice(1,-1).join('%7C');
+  return u;
+}
+function aLink(keys){
+  const p=keys.map(function(k){return P[k].lat+','+P[k].lng;});
+  if(p.length===1)return'https://maps.apple.com/?daddr='+p[0]+'&dirflg=r';
+  return'https://maps.apple.com/?saddr='+p[0]+'&daddr='+p.slice(1).join('+to:')+'&dirflg=r';
+}
+function one(key){return isIOS()?aLink([key]):gLink([key]);}
+function btns(key){
+  if(!key)return'';
+  return '<div class="rowlinks sm">'
+   +'<a class="btn" href="'+one(key)+'" target="_blank" rel="noopener">🧭 导航</a>'
+   +'<a class="btn g" href="'+gLink([key])+'" target="_blank" rel="noopener">Google 地图</a>'
+   +'<a class="btn a" href="'+aLink([key])+'" target="_blank" rel="noopener">Apple 地图</a>'
+   +'</div>';
+}
+
+/* ============ 时间格式 ============ */
+function hhmm(iso){
+  return new Intl.DateTimeFormat('zh-CN',{timeZone:HK,hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(iso));
+}
+function hhmmLocal(iso){
+  return new Intl.DateTimeFormat('zh-CN',{hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(iso));
+}
+function tzOffset(){
+  return 'UTC'+(new Date().getTimezoneOffset()<=0?'+':'-')+String(Math.abs(new Date().getTimezoneOffset()/60)).replace('.5','.5');
+}
+function hkHour(){
+  const p=new Intl.DateTimeFormat('en-US',{timeZone:HK,hour:'2-digit',hour12:false}).formatToParts(new Date());
+  const h=p.filter(function(x){return x.type==='hour';})[0].value;
+  return parseInt(h,10)%24;
+}
+
+/* ============ 渲染行程 ============ */
+function renderSched(el,arr){
+  document.getElementById(el).innerHTML=arr.map(function(e){
+    const title=e.p
+      ? '<a href="'+one(e.p)+'" target="_blank" rel="noopener">'+e.x+'</a>'
+      : e.x;
+    return '<li class="ev"><div class="tm">'+hhmm(e.t)+'</div><div>'
+      +'<div class="ttl">'+title+(e.b?'<span class="pill">'+e.b+'</span>':'')+'</div>'
+      +'<div class="note">'+e.n+'</div>'+btns(e.p)+'</div></li>';
+  }).join('');
+}
+
+/* ============ 已确认 ============ */
+const BOOKED=[
+ {k:'去程 · 高铁',v:'D2403　厦门 06:24 → 深圳北 09:59',m:'9 月 25 日（周五）· 二等座 2 张<br>厦门站：厦门市思明区厦禾路',p:'xiamen'},
+ {k:'去程 · 换乘',v:'G5619　深圳北 10:35 → 香港西九龙 10:56',m:'9 月 25 日（周五）· 2 张<br>深圳北换乘 36 分钟（站内换乘，不用过关）',p:'westkln'},
+ {k:'返程 · 高铁',v:'G6524　香港西九龙 18:00 → 深圳北 18:18',m:'9 月 26 日（周六）· 2 张<br>往内地需提前 45 分钟办一地两检，假期建议留 1 小时',p:'westkln'},
+ {k:'返程 · 换乘',v:'D676　深圳北 18:50 → 厦门 22:22',m:'9 月 26 日（周六）· 2 张<br>深圳北换乘 32 分钟，入境手续已在西九龙办完',p:'xiamen'},
+ {k:'住宿 · Airbnb',v:'文匯街（油麻地渡船角）',m:'9/25 15:00 入住 → 9/26 11:00 退房 · 两晚<br>房东 Chole · 门锁资讯出发前跟房东确认',p:'home'},
+ {k:'租车',v:'无',m:'全程高铁 ＋ 港铁 ＋ 天星小轮，不用租车'},
+ {k:'门票 · 提前预订',v:'没有必须提前订的',m:'中环摩天轮：现场买票，成人 $20<br>落日飞车 H2K：现场或城巴 App 买票<br>九龙公园、香港公园：免费',p:'wheel'}
+];
+function renderBooked(){
+  document.getElementById('booked').innerHTML=BOOKED.map(function(b){
+    return '<div class="card"><div class="k">'+b.k+'</div><div class="v">'+b.v+'</div>'
+      +'<div class="meta">'+b.m+'</div>'+btns(b.p)+'</div>';
+  }).join('');
+}
+
+/* ============ 倒计时 ============ */
+const ALL=D1.concat(D2);
+function nextEvent(){
+  const now=Date.now();
+  for(let i=0;i<ALL.length;i++){if(new Date(ALL[i].t).getTime()>now)return ALL[i];}
+  return null;
+}
+let autoTheme=true;
+function tick(){
+  const now=Date.now(),e=nextEvent();
+  const box=document.getElementById('cd');
+  if(!e){
+    document.getElementById('eyebrow').textContent='行程已结束';
+    document.getElementById('nowTtl').textContent='2 天香港行 · 完成';
+    document.getElementById('nowSub').textContent='22:22 抵达厦门站，辛苦了';
+    box.style.display='none';
+  }else{
+    const d=new Date(e.t),diff=Math.max(0,d.getTime()-now);
+    const day=Math.floor(diff/86400000),h=Math.floor(diff%86400000/3600000),
+          m=Math.floor(diff%3600000/60000),s=Math.floor(diff%60000/1000);
+    box.style.display='flex';
+    document.getElementById('cdD').textContent=day;
+    document.getElementById('cdH').textContent=String(h).padStart(2,'0');
+    document.getElementById('cdM').textContent=String(m).padStart(2,'0');
+    document.getElementById('cdS').textContent=String(s).padStart(2,'0');
+    document.getElementById('nowTtl').textContent=e.x;
+    document.getElementById('nowSub').innerHTML=hhmm(e.t)+' 香港时间（UTC+8）· 当地时间 '
+      +hhmmLocal(e.t)+' '+tzOffset()+(e.p?'　·　<a href="'+one(e.p)+'" target="_blank" rel="noopener">导航</a>':'');
+    const isFirst=new Date('2026-09-25T06:24:00+08:00').getTime()>now;
+    document.getElementById('eyebrow').textContent=isFirst?'出发倒计时':'此刻关注';
+  }
+  const dt=new Intl.DateTimeFormat('zh-CN',{timeZone:HK,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date());
+  document.getElementById('hkClock').textContent='香港时间 '+dt;
+  document.getElementById('localClock').textContent='你所在的时区 '+new Intl.DateTimeFormat('zh-CN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date())+' '+tzOffset();
+  if(autoTheme)applyTheme();
+}
+function applyTheme(){
+  const t=hkHour()>=7&&hkHour()<19?'day':'night';
+  document.documentElement.setAttribute('data-theme',t);
+  document.getElementById('themeBtn').textContent=t==='day'?'☾':'☀';
+  document.querySelector('meta[name=theme-color]').setAttribute('content',t==='day'?'#f6f1e7':'#12141a');
+}
+
+/* ============ 启动 ============ */
+renderBooked();
+renderSched('s1',D1);
+renderSched('s2',D2);
+drawMap('bigmap',
+  [{k:['westkln','austin','simcity','waso','kpark','home','ymtps','tstpier','cenpier'],c:'--d1'},{k:['home','austin','hkpark','wheel','kt'],c:'--d2'}],
+  [{k:'simcity',n:'1',l:'星际城市',c:'--d1'},{k:'waso',n:'2',l:'华嫂冰室',c:'--d1'},{k:'kpark',n:'3',l:'九龙公园',c:'--d1',ldy:-9},
+   {k:'ymtps',n:'4',l:'油麻地警署',c:'--d1'},{k:'tstpier',n:'5',l:'维港·天星小轮',c:'--d1'},
+   {k:'hkpark',n:'6',l:'香港公园',c:'--d2'},{k:'wheel',n:'7',l:'摩天轮',c:'--d2'},{k:'kt',n:'8',l:'坚尼地城',c:'--d2'},
+   {k:'home',n:'⌂',l:'住宿（两晚）'},{k:'austin',n:'▣'},{k:'cenpier',n:'☰'},{k:'westkln',n:'铁'}]);
+drawMap('map1',[{k:['westkln','austin','simcity','waso','kpark','home','ymtps','tstpier','cenpier'],c:'--d1'}],
+  [{k:'simcity',n:'1',l:'买相机',c:'--d1'},{k:'waso',n:'2',l:'华嫂冰室',c:'--d1'},{k:'kpark',n:'3',l:'九龙公园',c:'--d1',ldy:-9},
+   {k:'ymtps',n:'4',l:'油麻地警署',c:'--d1'},{k:'tstpier',n:'5',l:'维港',c:'--d1'},{k:'cenpier',n:'6',l:'落日飞车',c:'--d1'},
+   {k:'austin',n:'▣'},{k:'home',n:'⌂',l:'住宿'},{k:'westkln',n:'铁'}]);
+drawMap('map2',[{k:['home','austin','hkpark','wheel','kt'],c:'--d2'},{k:['kt','austin','westkln'],c:'--d2',dash:true}],
+  [{k:'hkpark',n:'1',l:'香港公园',c:'--d2'},{k:'wheel',n:'2',l:'摩天轮',c:'--d2'},{k:'kt',n:'3',l:'坚尼地城',c:'--d2'},
+   {k:'austin',n:'▣'},{k:'home',n:'⌂',l:'住宿（退房）'},{k:'westkln',n:'铁',l:'西九龙站'}]);
+document.getElementById('navD1').href=gLink(['westkln','austin','simcity','waso','kpark','home','ymtps','tstpier','cenpier']);
+document.getElementById('navD1').dataset.g=gLink(['westkln','austin','simcity','waso','kpark','home','ymtps','tstpier','cenpier']);
+document.getElementById('navD2').href=gLink(['home','austin','hkpark','wheel','kt','westkln']);
+if(isIOS()){
+  document.getElementById('navD1').href=aLink(['westkln','austin','simcity','waso','kpark','home','ymtps','tstpier','cenpier']);
+  document.getElementById('navD2').href=aLink(['home','austin','hkpark','wheel','kt','westkln']);
+}
+document.getElementById('themeBtn').onclick=function(){
+  autoTheme=!autoTheme;
+  const t=document.documentElement.getAttribute('data-theme');
+  document.documentElement.setAttribute('data-theme',t==='day'?'night':'day');
+  if(!autoTheme){this.textContent=document.documentElement.getAttribute('data-theme')==='day'?'☾':'☀';}
+  else{applyTheme();}
+};
+applyTheme();
+tick();
+setInterval(tick,1000);
+</script>
+</body>
+</html>
