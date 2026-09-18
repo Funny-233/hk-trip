@@ -91,6 +91,8 @@ h2 .dot.b{background:var(--d2)}
 .btn.a{border-color:var(--d2);color:var(--d2)}
 .btn.wide{background:var(--d2);border-color:var(--d2);color:#fff;font-weight:600;padding:9px 16px;font-size:13.5px}
 html[data-theme="night"] .btn.wide{color:#101418}
+.btn.wide.alt{background:var(--card);border-color:var(--d1);color:var(--d1);font-weight:600;padding:9px 16px;font-size:13.5px}
+.btn.wide.alt[hidden]{display:none}
 
 /* ---------- day ---------- */
 .dayhead{margin-top:26px}
@@ -198,7 +200,7 @@ footer{margin-top:34px;text-align:center;color:var(--muted);font-size:12px;line-
         <summary><span>展开当日路线地图 · 一键全天多点导航</span><span class="ar">▶</span></summary>
         <div class="dbody">
           <div id="map1"></div>
-          <div class="rowlinks"><a class="btn wide" id="navD1" href="#">🧭 一键打开 Day 1 全天导航</a></div>
+          <div class="rowlinks"><a class="btn wide" id="navD1" href="#">🧭 一键打开 Day 1 全天导航</a><a class="btn wide alt" id="navD1g" href="#" hidden>🚇 Day 1 全天导航 · Google（公交／地铁）</a></div>
         </div>
       </details>
       <ol class="sched" id="s1"></ol>
@@ -216,7 +218,7 @@ footer{margin-top:34px;text-align:center;color:var(--muted);font-size:12px;line-
         <summary><span>展开当日路线地图 · 一键全天多点导航</span><span class="ar">▶</span></summary>
         <div class="dbody">
           <div id="map2"></div>
-          <div class="rowlinks"><a class="btn wide" id="navD2" href="#">🧭 一键打开 Day 2 全天导航</a></div>
+          <div class="rowlinks"><a class="btn wide" id="navD2" href="#">🧭 一键打开 Day 2 全天导航</a><a class="btn wide alt" id="navD2g" href="#" hidden>🚇 Day 2 全天导航 · Google（公交／地铁）</a></div>
         </div>
       </details>
       <ol class="sched" id="s2"></ol>
@@ -544,12 +546,21 @@ drawMap('map1',[{k:['westkln','austin','simcity','waso','kpark','home','ymtps','
 drawMap('map2',[{k:['home','austin','hkpark','wheel','kt'],c:'--d2'},{k:['kt','austin','westkln'],c:'--d2',dash:true}],
   [{k:'hkpark',n:'1',l:'香港公园',c:'--d2'},{k:'wheel',n:'2',l:'摩天轮',c:'--d2'},{k:'kt',n:'3',l:'坚尼地城',c:'--d2'},
    {k:'austin',n:'▣'},{k:'home',n:'⌂',l:'住宿（退房）'},{k:'westkln',n:'铁',l:'西九龙站'}]);
-document.getElementById('navD1').href=gLink(['westkln','austin','simcity','waso','kpark','home','ymtps','tstpier','cenpier']);
-document.getElementById('navD1').dataset.g=gLink(['westkln','austin','simcity','waso','kpark','home','ymtps','tstpier','cenpier']);
-document.getElementById('navD2').href=gLink(['home','austin','hkpark','wheel','kt','westkln']);
+const D1K=['westkln','austin','simcity','waso','kpark','home','ymtps','tstpier','cenpier'];
+const D2K=['home','austin','hkpark','wheel','kt','westkln'];
+document.getElementById('navD1').href=gLink(D1K);
+document.getElementById('navD2').href=gLink(D2K);
+document.getElementById('navD1g').href=gLink(D1K);
+document.getElementById('navD2g').href=gLink(D2K);
 if(isIOS()){
-  document.getElementById('navD1').href=aLink(['westkln','austin','simcity','waso','kpark','home','ymtps','tstpier','cenpier']);
-  document.getElementById('navD2').href=aLink(['home','austin','hkpark','wheel','kt','westkln']);
+  /* Apple 地图的多点路线只支持驾车（不支持带途经点的公交/步行），所以主按钮给 Apple 驾车，
+     另外露出一个 Google 的按钮——Google 的多点路线支持 travelmode=transit，含公交地铁。 */
+  document.getElementById('navD1').href=aLink(D1K);
+  document.getElementById('navD2').href=aLink(D2K);
+  document.getElementById('navD1').textContent='🚗 Day 1 全天导航 · Apple（仅驾车）';
+  document.getElementById('navD2').textContent='🚗 Day 2 全天导航 · Apple（仅驾车）';
+  document.getElementById('navD1g').hidden=false;
+  document.getElementById('navD2g').hidden=false;
 }
 document.getElementById('themeBtn').onclick=function(){
   autoTheme=!autoTheme;
