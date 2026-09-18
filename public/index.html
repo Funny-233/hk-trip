@@ -317,17 +317,26 @@ const BB={lngMin:114.122,lngMax:114.182,latMin:22.268,latMax:22.322,W:380,H:367}
 function px(lng){return (lng-BB.lngMin)/(BB.lngMax-BB.lngMin)*BB.W;}
 function py(lat){return (BB.latMax-lat)/(BB.latMax-BB.latMin)*BB.H;}
 function pts(list){return list.map(function(c){return px(c[0]).toFixed(1)+','+py(c[1]).toFixed(1);}).join(' ');}
+/* 路线：相邻各点直连，只在拐角处做一个小圆角（半径 <=8px 且不超过相邻线段的 35%）。
+   这样线一定经过每一个点；旧写法用「线段起点作控制点 + 中点为终点」，线只画到中点就
+   转向，永远碰不到中间的点。 */
 function curve(keys){
   const p=keys.map(function(k){return [px(P[k].lng),py(P[k].lat)];});
-  if(p.length<2)return'';
-  let d='M'+p[0][0].toFixed(1)+','+p[0][1].toFixed(1);
-  for(let i=1;i<p.length;i++){
-    const a=p[i-1],b=p[i],mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2;
-    d+=' Q'+a[0].toFixed(1)+','+a[1].toFixed(1)+' '+mx.toFixed(1)+','+my.toFixed(1);
+  const n=p.length;
+  if(n<2)return'';
+  const F=function(v){return v.toFixed(1);}, R=4;
+  let d='M'+F(p[0][0])+','+F(p[0][1]);
+  for(let i=1;i<n-1;i++){
+    const a=p[i-1],c=p[i],b=p[i+1];
+    const la=Math.hypot(c[0]-a[0],c[1]-a[1])||1;
+    const lb=Math.hypot(b[0]-c[0],b[1]-c[1])||1;
+    const r=Math.min(R,la*0.3,lb*0.3);
+    const s=[c[0]+(a[0]-c[0])/la*r, c[1]+(a[1]-c[1])/la*r];
+    const e=[c[0]+(b[0]-c[0])/lb*r, c[1]+(b[1]-c[1])/lb*r];
+    d+=' L'+F(s[0])+','+F(s[1])+' Q'+F(c[0])+','+F(c[1])+' '+F(e[0])+','+F(e[1]);
   }
-  const L=p[p.length-1];
-  d+=' T'+L[0].toFixed(1)+','+L[1].toFixed(1);
-  return d;
+  const z=p[n-1];
+  return d+' L'+F(z[0])+','+F(z[1]);
 }
 /* 海岸线（西→东），陆地多边形 = 海岸线 + 东上角 + 西上角 */
 const KLSHORE=[[114.122,22.3055],[114.130,22.3022],[114.140,22.2996],[114.150,22.2972],[114.156,22.2956],[114.161,22.2946],[114.1665,22.2932],[114.171,22.2926],[114.176,22.2936],[114.182,22.2932]];
