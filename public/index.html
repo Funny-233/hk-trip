@@ -312,16 +312,93 @@ const D2=[
  {t:'2026-09-26T22:22:00+08:00',x:'抵达厦门站',n:'到家约 23:00',p:'xiamen'}
 ];
 
-/* ============ 地图投影 ============ */
-const BB={lngMin:114.122,lngMax:114.182,latMin:22.268,latMax:22.322,W:380,H:367};
-function px(lng){return (lng-BB.lngMin)/(BB.lngMax-BB.lngMin)*BB.W;}
-function py(lat){return (BB.latMax-lat)/(BB.latMax-BB.latMin)*BB.H;}
-function pts(list){return list.map(function(c){return px(c[0]).toFixed(1)+','+py(c[1]).toFixed(1);}).join(' ');}
-/* 路线：相邻各点直连，只在拐角处做一个小圆角（半径 <=8px 且不超过相邻线段的 35%）。
-   这样线一定经过每一个点；旧写法用「线段起点作控制点 + 中点为终点」，线只画到中点就
-   转向，永远碰不到中间的点。 */
-function curve(keys){
-  const p=keys.map(function(k){return [px(P[k].lng),py(P[k].lat)];});
+/* ============ 地图 ============ */
+/* 每张图各用自己的范围：由该图涉及的点算包围盒 → 留边 → 等比适配画布。
+   于是 Day1 / Day2 会自动放大到自己那天的活动区域，没去的点不再占地方、路线更清楚。
+   「等比」很关键：x/y 用同一地面比例，地图不会被拉扁。 */
+const VB_W=380, VB_H=367;
+
+/* 真实海岸线（WGS-84）。取自 OSM natural=coastline，按经度分箱取极值去掉码头/突堤锯齿后抽稀。
+   均为西→东排列；九龙岸 = 维港北侧，港岛岸 = 维港南侧。
+   数值校验：尖沙咀天星码头距岸线 +21m、中环摩天轮 +131m、坚尼地城 +442m、文華樓 +881m，
+   全部落在正确的陆地一侧。 */
+const KL_SHORE=[
+[114.11535,22.32509,114.11675,22.32331,114.12165,22.32153,114.12235,22.32100,114.12375,22.32046,114.12725,22.31854],
+[114.12795,22.31847,114.12865,22.31801,114.13215,22.31785,114.13355,22.31713,114.13425,22.31453,114.13565,22.31453],
+[114.13775,22.31501,114.13845,22.31751,114.14055,22.31751,114.14125,22.31630,114.14195,22.31601,114.14335,22.31601],
+[114.14475,22.31782,114.14545,22.32010,114.14615,22.32085,114.14755,22.32126,114.14825,22.32477,114.15035,22.32477],
+[114.15105,22.32436,114.15245,22.32189,114.15315,22.32150,114.15385,22.30467,114.15455,22.29898,114.15525,22.29865],
+[114.15805,22.29864,114.15875,22.29937,114.16015,22.30022,114.16365,22.30022,114.16435,22.29971,114.16505,22.29966],
+[114.16575,22.29913,114.16715,22.29913,114.16785,22.29345,114.16855,22.29295,114.17485,22.29329,114.17625,22.29441],
+[114.17695,22.29573,114.17765,22.29656,114.18045,22.29746,114.18115,22.29746,114.18185,22.29768,114.18325,22.29768],
+[114.18395,22.29871,114.18465,22.29885,114.18675,22.29981,114.18885,22.30009,114.19165,22.30179,114.19235,22.30274],
+[114.19375,22.30274,114.19445,22.29267,114.19585,22.29267,114.19655,22.29306,114.19725,22.29306,114.19935,22.29347],
+[114.20355,22.29382,114.20495,22.30329],
+];
+const HK_SHORE=[
+[114.11535,22.28607,114.11745,22.28607,114.11815,22.28166,114.11955,22.28166,114.12095,22.28199,114.12165,22.28240],
+[114.12305,22.28277,114.12375,22.28336,114.12445,22.28342,114.12515,22.28379,114.12725,22.28400,114.12795,22.28433],
+[114.12865,22.28481,114.12935,22.28588,114.13075,22.28692,114.13145,22.28910,114.13425,22.28921,114.13495,22.28959],
+[114.13775,22.29019,114.13845,22.29062,114.14545,22.29050,114.14755,22.29005,114.14895,22.29004,114.14965,22.28960],
+[114.15245,22.28945,114.15315,22.28918,114.15385,22.28841,114.15525,22.28806,114.15665,22.28806,114.15805,22.28773],
+[114.16015,22.28716,114.16225,22.28630,114.16365,22.28630,114.16435,22.28470,114.16505,22.28422,114.16575,22.28345],
+[114.16715,22.28345,114.16785,22.29355,114.16925,22.29355,114.16995,22.29311,114.17135,22.29311,114.17345,22.29333],
+[114.17415,22.29371,114.17625,22.29371,114.17695,22.28327,114.17905,22.28327,114.17975,22.28336,114.18045,22.28430],
+[114.18185,22.28475,114.18325,22.28475,114.18465,22.28424,114.18605,22.28424,114.18745,22.28755,114.18815,22.28808],
+[114.18885,22.28820,114.18955,22.28855,114.19025,22.28940,114.19235,22.29122,114.19305,22.29133,114.19445,22.29210],
+[114.19515,22.29225,114.19585,22.29270,114.19865,22.29317,114.19935,22.29443,114.20075,22.29443,114.20145,22.29393],
+[114.20355,22.29393],
+];
+
+function shoreLatAt(shore,lng){
+  for(let i=0;i<shore.length-1;i++){
+    const a=shore[i],b=shore[i+1];
+    if(a[0]<=lng&&lng<=b[0]){
+      const t=(b[0]===a[0])?0:(lng-a[0])/(b[0]-a[0]);
+      return a[1]+t*(b[1]-a[1]);
+    }
+  }
+  return null;
+}
+function mapBox(keys,pad){
+  let lo=1e9,hi=-1e9,la=1e9,lb=-1e9;
+  keys.forEach(function(k){
+    const o=P[k];
+    if(o.lng<lo)lo=o.lng; if(o.lng>hi)hi=o.lng;
+    if(o.lat<la)la=o.lat; if(o.lat>lb)lb=o.lat;
+  });
+  const kx=111320*Math.cos((la+lb)/2*Math.PI/180), ky=111320;
+  let w=(hi-lo)*kx, h=(lb-la)*ky;
+  w*=1+pad; h*=1+pad;
+  const cx=(lo+hi)/2, cy=(la+lb)/2, T=VB_W/VB_H;
+  if(w/h<T) w=h*T; else h=w/T;
+  return {lngMin:cx-w/2/kx,lngMax:cx+w/2/kx,latMin:cy-h/2/ky,latMax:cy+h/2/ky};
+}
+function makeProj(keys,pad){
+  const b=mapBox(keys,pad);
+  const sx=VB_W/(b.lngMax-b.lngMin), sy=VB_H/(b.latMax-b.latMin);
+  return {box:b,px:function(l){return (l-b.lngMin)*sx;},py:function(l){return (b.latMax-l)*sy;}};
+}
+function clipShore(shore,lngMin,lngMax){
+  const out=shore.filter(function(p){return p[0]>=lngMin&&p[0]<=lngMax;});
+  if(!out.length)return out;
+  if(out[0][0]>lngMin){const e=shoreLatAt(shore,lngMin); if(e!==null)out.unshift([lngMin,e]);}
+  if(out[out.length-1][0]<lngMax){const e=shoreLatAt(shore,lngMax); if(e!==null)out.push([lngMax,e]);}
+  return out;
+}
+/* 陆地多边形 = 视口内的岸线 + 画布角（向北/向南外扩 M，避免滤波位移在边缘露白） */
+function landPoly(shore,pj,north){
+  const s=clipShore(shore,pj.box.lngMin,pj.box.lngMax);
+  if(s.length<2)return '';
+  const M=10, ey=north?-M:VB_H+M;
+  const d=s.map(function(p){return pj.px(p[0]).toFixed(1)+','+pj.py(p[1]).toFixed(1);}).join(' ');
+  return 'M'+d+' L'+(VB_W+M)+','+ey+' L'+(-M)+','+ey+' Z';
+}
+/* 路线：相邻各点直连，只在拐角处做一个小圆角（半径 <=4px 且不超过相邻线段的 30%）。
+   这样线一定经过每一个点；旧写法用「线段起点作控制点 + 中点为终点」，线只画到中点就转向，
+   永远碰不到中间的点（实测最大偏离 1.9px，小于 2.6px 线宽）。 */
+function curve(keys,pj){
+  const p=keys.map(function(k){return [pj.px(P[k].lng),pj.py(P[k].lat)];});
   const n=p.length;
   if(n<2)return'';
   const F=function(v){return v.toFixed(1);}, R=4;
@@ -338,61 +415,111 @@ function curve(keys){
   const z=p[n-1];
   return d+' L'+F(z[0])+','+F(z[1]);
 }
-/* 海岸线（西→东），陆地多边形 = 海岸线 + 东上角 + 西上角 */
-const KLSHORE=[[114.122,22.3055],[114.130,22.3022],[114.140,22.2996],[114.150,22.2972],[114.156,22.2956],[114.161,22.2946],[114.1665,22.2932],[114.171,22.2926],[114.176,22.2936],[114.182,22.2932]];
-const HKSHR=[[114.122,22.2849],[114.130,22.2843],[114.140,22.2849],[114.150,22.2859],[114.157,22.2866],[114.161,22.2870],[114.166,22.2871],[114.172,22.2873],[114.182,22.2858]];
-
-function landPath(shore,topLat){
-  const a=pts(shore);
-  const east=px(BB.lngMax).toFixed(1)+','+py(topLat).toFixed(1);
-  const west=px(BB.lngMin).toFixed(1)+','+py(topLat).toFixed(1);
-  return 'M'+a+' '+east+' '+west+' Z';
+/* 估算标签像素宽度：CJK 约 9.5px/字，其余约 5.4px */
+function lblW(s){
+  let w=0;
+  for(let i=0;i<s.length;i++) w += /[\u2e80-\u9fff\uff00-\uffef]/.test(s[i]) ? 9.7 : 5.4;
+  return w;
 }
-function baseMap(fid){
-  return `
-  <rect x="0" y="0" width="${BB.W}" height="${BB.H}" rx="12" fill="var(--water)"></rect>
-  <g filter="url(#${fid})" opacity=".5" stroke="var(--landline)" stroke-width="1" fill="none" stroke-linecap="round">
-    <path d="M16,206 q44,-6 88,0 t88,0 t88,0 t88,0"></path>
-    <path d="M16,219 q50,6 100,0 t100,0 t100,0"></path>
-    <path d="M28,231 q44,-6 88,0 t88,0 t88,0"></path>
-  </g>
-  <path d="${landPath(KLSHORE,22.322)}" fill="var(--land)" stroke="var(--landline)" stroke-width="1.6" filter="url(#${fid})"></path>
-  <path d="${landPath(HKSHR,22.268)}" fill="var(--land)" stroke="var(--landline)" stroke-width="1.6" filter="url(#${fid})"></path>
-  <text x="90" y="62" class="mlbl" text-anchor="middle" opacity=".8">九龙</text>
-  <text x="196" y="336" class="mlbl" text-anchor="middle" opacity=".8">香港岛</text>
-  <text x="168" y="222" class="mlbl" text-anchor="middle" opacity=".8">维多利亚港</text>`;
+/* 地理标签按当前投影实时定位；返回 {svg,rect}，rect 参与后面的碰撞检测 */
+function mapLabels(pj){
+  const b=pj.box, lng=b.lngMin+(b.lngMax-b.lngMin)*0.26, x=pj.px(lng);
+  const kl=shoreLatAt(KL_SHORE,lng), hk=shoreLatAt(HK_SHORE,lng);
+  const items=[];
+  if(kl!==null){const y=pj.py(kl)-14; if(y>32&&y<VB_H-6) items.push({x:x,y:y,t:'九龙',o:.75});}
+  if(hk!==null){const y=pj.py(hk)+22; if(y>16&&y<VB_H-8) items.push({x:x,y:y,t:'香港岛',o:.75});}
+  if(kl!==null&&hk!==null&&Math.abs(pj.py(kl)-pj.py(hk))>30){
+    const y=(pj.py(kl)+pj.py(hk))/2+3;
+    if(y>18&&y<VB_H-12) items.push({x:x,y:y,t:'维多利亚港',o:.6});
+  }
+  return items.map(function(it){
+    const w=lblW(it.t);
+    return {svg:'<text x="'+it.x.toFixed(0)+'" y="'+it.y.toFixed(0)+'" class="mlbl" text-anchor="middle" opacity="'+it.o+'">'+it.t+'</text>',
+            rect:[it.x-w/2,it.y-8,it.x+w/2,it.y+3]};
+  });
 }
-
+function baseMap(fid,pj,labelSvg){
+  return '<rect x="-10" y="-10" width="'+(VB_W+20)+'" height="'+(VB_H+20)+'" fill="var(--water)"></rect>'
+   +'<path d="'+landPoly(KL_SHORE,pj,true)+'" fill="var(--land)" stroke="var(--landline)" stroke-width="1.6" filter="url(#'+fid+')"></path>'
+   +'<path d="'+landPoly(HK_SHORE,pj,false)+'" fill="var(--land)" stroke="var(--landline)" stroke-width="1.6" filter="url(#'+fid+')"></path>'
+   +labelSvg;
+}
 function drawMap(host,routes,marks){
   const fid='rough_'+host;
+  let keys=[];
+  routes.forEach(function(rt){keys=keys.concat(rt.k);});
+  marks.forEach(function(mk){keys.push(mk.k);});
+  const pj=makeProj(keys,0.16);
   const r=routes.map(function(rt){
-    return '<path d="'+curve(rt.k)+'" fill="none" stroke="var('+rt.c+')" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" '+(rt.dash?'stroke-dasharray="5 6" opacity=".75"':'')+' filter="url(#'+fid+')"></path>';
+    return '<path d="'+curve(rt.k,pj)+'" fill="none" stroke="var('+rt.c+')" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" '+(rt.dash?'stroke-dasharray="5 6" opacity=".75"':'')+' filter="url(#'+fid+')"></path>';
   }).join('');
+  /* 标签排布：按「偏好侧 → 另一侧 → 下方 → 上方」依次试探，取第一个既不越界、
+     也不压到任何标记或已放标签的位置。单纯贪心换边在拥挤处会制造新的重叠。 */
+  const labels=mapLabels(pj);
+  const occ=[];
+  labels.forEach(function(L){occ.push(L.rect);});
+  marks.forEach(function(mk){
+    const x=pj.px(P[mk.k].lng), y=pj.py(P[mk.k].lat);
+    occ.push([x-10,y-10,x+10,y+10]);
+  });
+  function hitRect(r){
+    for(let i=0;i<occ.length;i++){
+      const o=occ[i];
+      if(Math.min(r[2],o[2])-Math.max(r[0],o[0])>0.5 && Math.min(r[3],o[3])-Math.max(r[1],o[1])>0.5) return true;
+    }
+    return false;
+  }
+  function rectAt(anchor,tx,ty,w){
+    if(anchor==='end')    return [tx-w,ty-8,tx,ty+3];
+    if(anchor==='middle') return [tx-w/2,ty-8,tx+w/2,ty+3];
+    return [tx,ty-8,tx+w,ty+3];
+  }
   const m=marks.map(function(mk){
-    const o=P[mk.k],x=px(o.lng),y=py(o.lat);
+    const o=P[mk.k],x=pj.px(o.lng),y=pj.py(o.lat);
     const col=mk.c?'var('+mk.c+')':'var(--text)';
     let g='<g><circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="9.5" fill="'+col+'" stroke="var(--card)" style="stroke-width:2"></circle>'
       +'<text x="'+x.toFixed(1)+'" y="'+(y+3.2).toFixed(1)+'" class="num" text-anchor="middle">'+mk.n+'</text>';
     if(mk.l){
-      const left=mk.lp==='l';
-      const tx=left?(x-11):(x+11), ty=y+(mk.ldy||3.6);
-      g+='<text x="'+tx.toFixed(1)+'" y="'+ty.toFixed(1)+'" class="mlbl" text-anchor="'+(left?'end':'start')+'">'+mk.l+'</text>';
+      const w=lblW(mk.l), dy=mk.ldy||3.6, pref=(mk.lp==='l')?'l':'r';
+      const mcx=function(v){return Math.min(Math.max(v,w/2+4),VB_W-w/2-4);};
+      const cands=[
+        {a:(pref==='l'?'end':'start'), tx:(pref==='l'?x-11:x+11), ty:y+dy},
+        {a:(pref==='l'?'start':'end'), tx:(pref==='l'?x+11:x-11), ty:y+dy},
+        {a:'middle', tx:mcx(x), ty:y+21},
+        {a:'middle', tx:mcx(x), ty:y-13}
+      ];
+      let pick=null;
+      for(let i=0;i<cands.length;i++){
+        const c=cands[i], r=rectAt(c.a,c.tx,c.ty,w);
+        if(r[0]>=1&&r[2]<=VB_W-1&&r[1]>=1&&r[3]<=VB_H-1&&!hitRect(r)){pick=c; occ.push(r); break;}
+      }
+      if(!pick){
+        const isL=(pref==='l');
+        let tx=isL?(x-11):(x+11);
+        tx = isL ? Math.max(tx,w+2) : Math.min(tx,VB_W-w-2);
+        pick={a:(isL?'end':'start'), tx:tx, ty:y+dy};
+        occ.push(rectAt(pick.a,pick.tx,pick.ty,w));
+      }
+      g+='<text x="'+pick.tx.toFixed(1)+'" y="'+pick.ty.toFixed(1)+'" class="mlbl" text-anchor="'+pick.a+'">'+mk.l+'</text>';
     }
     return g+'</g>';
   }).join('');
-  const svg='<svg viewBox="0 0 '+BB.W+' '+BB.H+'" xmlns="http://www.w3.org/2000/svg">'
-    +'<defs><filter id="'+fid+'" x="-6%" y="-6%" width="112%" height="112%">'
+  const svg='<svg viewBox="0 0 '+VB_W+' '+VB_H+'" xmlns="http://www.w3.org/2000/svg">'
+    +'<defs>'
+    +'<clipPath id="clip_'+host+'"><rect x="0" y="0" width="'+VB_W+'" height="'+VB_H+'" rx="12"></rect></clipPath>'
+    +'<filter id="'+fid+'" x="-6%" y="-6%" width="112%" height="112%">'
     +'<feTurbulence type="fractalNoise" baseFrequency="0.022 0.03" numOctaves="2" seed="9" result="n"></feTurbulence>'
     +'<feDisplacementMap in="SourceGraphic" in2="n" scale="3.4" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>'
     +'</filter></defs>'
-    +baseMap(fid)+r+m+'</svg>';
+    +'<g clip-path="url(#clip_'+host+')">'+baseMap(fid,pj,labels.map(function(L){return L.svg;}).join(''))+r+m+'</g></svg>';
   document.getElementById(host).innerHTML=svg;
 }
 
 /* ============ 导航链接 ============ */
-/* Apple 地图中国区走高德数据（GCJ-02），直接丢 WGS-84 裸坐标会整体偏约 600 米
-   （实测：文華樓被偏到西九龍公路上）。所以 Apple 一路一律用「名称＋地址」搜索，
-   由 Apple 自己的 POI 库定位，与坐标系无关；Google 用坐标是准的，保持不变。 */
+/* Apple 地图中国区走高德数据（GCJ-02），坐标按 GCJ-02 解释；直接丢 WGS-84 裸坐标
+   会整体偏约 600 米（实测：文華樓被偏到西九龍公路上）。所以 Apple 一路先做
+   WGS→GCJ 换算再传坐标。不要改用「名称搜索」——Apple 的地名库会把同名建筑匹配到
+   别的区（实测「文華樓」串到跑馬地奕蔭街）。Google 是 WGS-84，坐标直接用。 */
 function isIOS(){return /iPad|iPhone|iPod/.test(navigator.platform||'')||(/Mac/.test(navigator.platform||'')&&navigator.maxTouchPoints>1);}
 function gLink(keys){
   const p=keys.map(function(k){return P[k].lat+','+P[k].lng;});
