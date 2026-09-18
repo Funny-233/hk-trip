@@ -379,6 +379,9 @@ function drawMap(host,routes,marks){
 }
 
 /* ============ 导航链接 ============ */
+/* Apple 地图中国区走高德数据（GCJ-02），直接丢 WGS-84 裸坐标会整体偏约 600 米
+   （实测：文華樓被偏到西九龍公路上）。所以 Apple 一路一律用「名称＋地址」搜索，
+   由 Apple 自己的 POI 库定位，与坐标系无关；Google 用坐标是准的，保持不变。 */
 function isIOS(){return /iPad|iPhone|iPod/.test(navigator.platform||'')||(/Mac/.test(navigator.platform||'')&&navigator.maxTouchPoints>1);}
 function gLink(keys){
   const p=keys.map(function(k){return P[k].lat+','+P[k].lng;});
@@ -387,10 +390,13 @@ function gLink(keys){
   if(p.length>2)u+='&waypoints='+p.slice(1,-1).join('%7C');
   return u;
 }
+function aQ(k){
+  const p=P[k];
+  return encodeURIComponent(p.name.replace(/^住宿 · /,'').replace(/（[^）]*）/g,'').trim()+' '+p.addr);
+}
 function aLink(keys){
-  const p=keys.map(function(k){return P[k].lat+','+P[k].lng;});
-  if(p.length===1)return'https://maps.apple.com/?daddr='+p[0]+'&dirflg=r';
-  return'https://maps.apple.com/?saddr='+p[0]+'&daddr='+p.slice(1).join('+to:')+'&dirflg=r';
+  if(keys.length===1)return'https://maps.apple.com/?daddr='+aQ(keys[0]);
+  return'https://maps.apple.com/?saddr='+aQ(keys[0])+'&daddr='+keys.slice(1).map(aQ).join('+to:');
 }
 function one(key){return isIOS()?aLink([key]):gLink([key]);}
 function btns(key){
