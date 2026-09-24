@@ -177,6 +177,7 @@ footer{margin-top:34px;text-align:center;color:var(--muted);font-size:12px;line-
         <span>⌂ 住宿</span>
         <span>▣ 行李寄存</span>
         <span>铁 高铁站</span>
+        <span>☀ 维港日出</span>
         <span>☰ 落日飞车</span>
       </div>
       <div class="house">🏠 住宿：文華樓（油麻地渡船角 · 文匯街）· 9/25 入住、9/26 退房</div>
@@ -211,7 +212,7 @@ footer{margin-top:34px;text-align:center;color:var(--muted);font-size:12px;line-
         <span class="bar b2"></span>
         <div>
           <div class="dname">Day 2 · 9 月 26 日（周六）</div>
-          <div class="ddate">港岛半日 · 傍晚回程 · 中秋翌日公众假期</div>
+          <div class="ddate">维港日出 · 港岛半日 · 傍晚回程 · 中秋翌日公众假期</div>
         </div>
       </div>
       <details id="d2map">
@@ -227,6 +228,7 @@ footer{margin-top:34px;text-align:center;color:var(--muted);font-size:12px;line-
     <section>
       <h2><i class="dot"></i>待办清单</h2>
       <ul class="todo">
+        <li><b>9/26 早上设 5:15 闹钟</b> —— 要去维港看日出（约 06:14），前一晚别熬太晚；起不来就取消，别硬撑。</li>
         <li><b>订两天的行李寄存</b> —— 柯士甸站／西九龙站附近的寄存点（存知己、途简单、行李记这类小程序都能查），约 20 元/天，营业时间 10:00–21:00。9/25 和 9/26 各一次。</li>
         <li><b>落日飞车 H2K 买票</b> —— 中秋夜人多，建议提前在城巴 App 买；上车点是中环天星码头。</li>
         <li><b>出发前跟房东 Chole 确认入住方式</b> —— 门锁／密码怎么给，几点能联系上。</li>
@@ -246,6 +248,7 @@ footer{margin-top:34px;text-align:center;color:var(--muted);font-size:12px;line-
         <li><b>去程风险点</b>：D2403 晚点超过 10 分钟就可能赶不上 G5619。深圳北当天 11:00 之后去西九龙的车很多，真赶不上就现场改签。</li>
         <li><b>西九龙站往内地</b>要在一地两检前留足时间，官方建议提前 45 分钟；9/26 是假期，建议留 1 小时。</li>
         <li><b>交通参考</b>：佐敦 → 中环（荃湾线过海）约 10 分钟；中环 → 坚尼地城（港岛线）约 12 分钟；尖沙咀 ↔ 中环 天星小轮约 8 分钟；旺角 ↔ 尖沙咀（荃湾线）约 6 分钟。</li>
+        <li><b>9/26 看日出</b>：日出约 06:14，位置在尖沙咀海滨长廊（近星光大道），太阳几乎从正东的海面上出来。港铁首班车 6 点才开，从文華樓走过去约 20–25 分钟最稳。清晨海边有风，带件外套。</li>
         <li><b>紧急电话 999</b>（警察／消防／救护）。</li>
         <li>9 月香港仍可能有台风，出发前看一眼香港天文台。</li>
       </ul>
@@ -273,6 +276,8 @@ const P={
   waso:    {name:'华嫂冰室（尖沙咀店）',   lat:22.29951,lng:114.17292,addr:'九龙 尖沙咀 加連威老道10號 加威中心地下',tel:'2259 9318'},
   kpark:   {name:'九龙公园',               lat:22.30053,lng:114.17012,addr:'九龙 尖沙咀（彌敦道／柯士甸道）'},
   tstpier: {name:'尖沙咀天星码头',         lat:22.29354,lng:114.16799,addr:'九龙 尖沙咀 梳士巴利道'},
+  avstar:  {name:'尖沙咀海滨长廊（星光大道）',lat:22.29380,lng:114.17420,addr:'九龙 尖沙咀 海滨长廊 近星光大道'},
+  ausdairy:{name:'澳洲牛奶公司',           lat:22.30470,lng:114.17150,addr:'九龙 佐敦 白加士街 47 號'},
   cenpier: {name:'中环天星码头',           lat:22.28704,lng:114.16119,addr:'香港岛 中环 民光街'},
   wheel:   {name:'中环摩天轮',             lat:22.28532,lng:114.16177,addr:'香港岛 中环海滨',tel:'2339 0777'},
   hkpark:  {name:'香港公园',               lat:22.27742,lng:114.16151,addr:'香港岛 中环／金钟 红棉路一带'},
@@ -300,6 +305,12 @@ const D1=[
 ];
 
 const D2=[
+ {t:'2026-09-26T05:15:00+08:00',x:'起床 · 先看一眼香港天文台天气',n:'日出前 1 小时起来 · 带件薄外套，海边清晨有风',b:'早起'},
+ {t:'2026-09-26T05:40:00+08:00',x:'文華樓 → 尖沙咀海滨',n:'步行约 20–25 分钟。港铁首班车 6 点才开，看日出只能走过去',p:'home'},
+ {t:'2026-09-26T06:14:00+08:00',x:'维多利亚港 看日出',n:'尖沙咀海滨长廊（近星光大道）· 9/26 日出约 06:14，太阳几乎正东升起 · 提前 20 分钟到占位',p:'avstar',b:'日出 06:14'},
+ {t:'2026-09-26T06:55:00+08:00',x:'收工 · 走回佐敦吃早餐',n:'沿海防道／弥敦道往北走，约 20 分钟'},
+ {t:'2026-09-26T07:30:00+08:00',x:'早餐 · 澳洲牛奶公司',n:'佐敦 白加士街 47 號 · 07:30 开门 · 炒蛋多士、炖奶 · 只收现金，假期要排队',p:'ausdairy'},
+ {t:'2026-09-26T08:30:00+08:00',x:'回文華樓 · 补觉 / 收拾行李',n:'11:00 退房，先把行李收好',p:'home'},
  {t:'2026-09-26T11:00:00+08:00',x:'退房',n:'文華樓 · 房东 11:00 退房',p:'home'},
  {t:'2026-09-26T11:20:00+08:00',x:'柯士甸站 寄存行李',n:'今天要玩到下午才进站，行李先存这儿，回西九龙站顺路取',p:'austin',b:'需提前订'},
  {t:'2026-09-26T12:00:00+08:00',x:'香港公园',n:'免费 · 中环／金钟之间 · 从佐敦坐荃湾线过海到中环再走上去',p:'hkpark'},
@@ -667,20 +678,20 @@ renderBooked();
 renderSched('s1',D1);
 renderSched('s2',D2);
 drawMap('bigmap',
-  [{k:['westkln','austin','simcity','waso','kpark','home','ymtps','tstpier','cenpier'],c:'--d1'},{k:['home','austin','hkpark','wheel','kt'],c:'--d2'}],
+  [{k:['westkln','austin','simcity','waso','kpark','home','ymtps','tstpier','cenpier'],c:'--d1'},{k:['home','avstar','ausdairy','austin','hkpark','wheel','kt'],c:'--d2'}],
   [{k:'simcity',n:'1',l:'星际城市',c:'--d1'},{k:'waso',n:'2',l:'华嫂冰室',c:'--d1'},{k:'kpark',n:'3',l:'九龙公园',c:'--d1',ldy:-9},
    {k:'ymtps',n:'4',l:'油麻地警署',c:'--d1'},{k:'tstpier',n:'5',l:'维港·天星小轮',c:'--d1'},
-   {k:'hkpark',n:'6',l:'香港公园',c:'--d2'},{k:'wheel',n:'7',l:'摩天轮',c:'--d2'},{k:'kt',n:'8',l:'坚尼地城',c:'--d2'},
+   {k:'avstar',n:'☀',l:'维港日出',c:'--d2'},{k:'hkpark',n:'7',l:'香港公园',c:'--d2'},{k:'wheel',n:'8',l:'摩天轮',c:'--d2'},{k:'kt',n:'9',l:'坚尼地城',c:'--d2'},
    {k:'home',n:'⌂',l:'住宿（两晚）'},{k:'austin',n:'▣'},{k:'cenpier',n:'☰'},{k:'westkln',n:'铁'}]);
 drawMap('map1',[{k:['westkln','austin','simcity','waso','kpark','home','ymtps','tstpier','cenpier'],c:'--d1'}],
   [{k:'simcity',n:'1',l:'买相机',c:'--d1'},{k:'waso',n:'2',l:'华嫂冰室',c:'--d1'},{k:'kpark',n:'3',l:'九龙公园',c:'--d1',ldy:-9},
    {k:'ymtps',n:'4',l:'油麻地警署',c:'--d1'},{k:'tstpier',n:'5',l:'维港',c:'--d1'},{k:'cenpier',n:'6',l:'落日飞车',c:'--d1'},
    {k:'austin',n:'▣'},{k:'home',n:'⌂',l:'住宿'},{k:'westkln',n:'铁'}]);
-drawMap('map2',[{k:['home','austin','hkpark','wheel','kt'],c:'--d2'},{k:['kt','austin','westkln'],c:'--d2',dash:true}],
-  [{k:'hkpark',n:'1',l:'香港公园',c:'--d2'},{k:'wheel',n:'2',l:'摩天轮',c:'--d2'},{k:'kt',n:'3',l:'坚尼地城',c:'--d2'},
+drawMap('map2',[{k:['home','avstar','ausdairy','austin','hkpark','wheel','kt'],c:'--d2'},{k:['kt','austin','westkln'],c:'--d2',dash:true}],
+  [{k:'avstar',n:'☀',l:'维港日出',c:'--d2'},{k:'hkpark',n:'1',l:'香港公园',c:'--d2'},{k:'wheel',n:'2',l:'摩天轮',c:'--d2'},{k:'kt',n:'3',l:'坚尼地城',c:'--d2'},
    {k:'austin',n:'▣'},{k:'home',n:'⌂',l:'住宿（退房）'},{k:'westkln',n:'铁',l:'西九龙站'}]);
 const D1K=['westkln','austin','simcity','waso','kpark','home','ymtps','tstpier','cenpier'];
-const D2K=['home','austin','hkpark','wheel','kt','westkln'];
+const D2K=['home','avstar','ausdairy','austin','hkpark','wheel','kt','westkln'];
 document.getElementById('navD1').href=gLink(D1K);
 document.getElementById('navD2').href=gLink(D2K);
 document.getElementById('navD1g').href=gLink(D1K);
