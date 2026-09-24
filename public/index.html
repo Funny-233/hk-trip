@@ -177,6 +177,8 @@ footer{margin-top:34px;text-align:center;color:var(--muted);font-size:12px;line-
         <span>⌂ 住宿</span>
         <span>▣ 行李寄存</span>
         <span>铁 高铁站</span>
+        <span>莎 莎莎</span>
+        <span>闪 怪奇物语快闪</span>
         <span>灯 中秋花灯</span>
         <span>☀ 维港日出</span>
         <span>☰ 落日飞车</span>
@@ -213,7 +215,7 @@ footer{margin-top:34px;text-align:center;color:var(--muted);font-size:12px;line-
         <span class="bar b2"></span>
         <div>
           <div class="dname">Day 2 · 9 月 26 日（周六）</div>
-          <div class="ddate">维港日出 · 港岛半日 · 傍晚回程 · 中秋翌日公众假期</div>
+          <div class="ddate">维港日出 · 港岛半日＋中环快闪 · 傍晚回程 · 中秋翌日公众假期</div>
         </div>
       </div>
       <details id="d2map">
@@ -251,6 +253,8 @@ footer{margin-top:34px;text-align:center;color:var(--muted);font-size:12px;line-
         <li><b>交通参考</b>：佐敦 → 中环（荃湾线过海）约 10 分钟；中环 → 坚尼地城（港岛线）约 12 分钟；尖沙咀 ↔ 中环 天星小轮约 8 分钟；旺角 ↔ 尖沙咀（荃湾线）约 6 分钟。</li>
         <li><b>9/26 看日出怎么去</b>：那个点没有地铁——佐敦站首班车 06:03、且 05:53 才开门，赶不上 06:14 的日出；通宵巴士（N 字头）走弥敦道但 20–30 分钟一班。所以：<b>走路 20–25 分钟</b>，或打车 5–8 分钟（起表约 $29）。机位在尖沙咀海滨长廊（近星光大道），太阳几乎从正东的海面出来，清晨有风带件外套。</li>
         <li><b>9/25 中秋花灯</b>：尖沙咀这场是「中秋光影装置」，在<b>香港文化中心露天广场</b>（天星码头旁），免费，亮灯 6:30pm–11pm，9/24–27 延长到凌晨 12 点。主会场是<b>维多利亚公园</b>（铜锣湾，9/17–10/4），但官方明说中秋正日人太多、建议避开正日前往，而且维园要人流管制、先到先得。</li>
+        <li><b>莎莎怎么找</b>：弥敦道沿线（旺角—油麻地—佐敦—尖沙咀）几乎每隔几条街就有一家，页面里放的是华嫂冰室旁边那家（弥敦道店，走过去约 100 米）。不用特意找，看到就进；这家没货就沿弥敦道再走两分钟，金馬倫道、寶勒巷各有一家。</li>
+        <li><b>怪奇物语快闪店</b>：中环德辅道中 39 号（皇后商业中心 G/F），<b>只到 9/27</b>，每日 11:30–20:30、免费。中环站 A 出口（环球大厦）出来沿德辅道中往西约 130 米；香港站 C 出口那边也有行人通道过去。中环德己立街另有一家莎莎，离快闪店约 200 米。</li>
         <li><b>紧急电话 999</b>（警察／消防／救护）。</li>
         <li>9 月香港仍可能有台风，出发前看一眼香港天文台。</li>
       </ul>
@@ -280,6 +284,8 @@ const P={
   tstpier: {name:'尖沙咀天星码头',         lat:22.29354,lng:114.16799,addr:'九龙 尖沙咀 梳士巴利道'},
   hkccl:   {name:'香港文化中心露天广场',   lat:22.29360,lng:114.16990,addr:'九龙 尖沙咀 梳士巴利道 香港文化中心外（天星码头旁）'},
   avstar:  {name:'尖沙咀海滨长廊（星光大道）',lat:22.29380,lng:114.17420,addr:'九龙 尖沙咀 海滨长廊 近星光大道'},
+  sasa:    {name:'莎莎 Sasa（尖沙咀亞士厘道店）',lat:22.29795,lng:114.17047,addr:'九龙 尖沙咀 亞士厘道 Ashley Road'},
+  stpop:   {name:'怪奇物语快闪店',         lat:22.28315,lng:114.15670,addr:'香港岛 中环 德辅道中 39 号 皇后商业中心 G/F'},
   ausdairy:{name:'澳洲牛奶公司',           lat:22.30470,lng:114.17150,addr:'九龙 佐敦 白加士街 47 號'},
   cenpier: {name:'中环天星码头',           lat:22.28704,lng:114.16119,addr:'香港岛 中环 民光街'},
   wheel:   {name:'中环摩天轮',             lat:22.28532,lng:114.16177,addr:'香港岛 中环海滨',tel:'2339 0777'},
@@ -297,6 +303,7 @@ const D1=[
  {t:'2026-09-25T12:00:00+08:00',x:'柯士甸站 寄存行李',n:'站外约 100 米的第三方寄存点，约 20 元/天，营业 10:00–21:00',p:'austin',b:'需提前订'},
  {t:'2026-09-25T12:30:00+08:00',x:'星际城市 买相机',n:'店 12:00 开档，你 12:30 到正好。买完问清保修和发票',p:'simcity',b:'第一站'},
  {t:'2026-09-25T14:00:00+08:00',x:'华嫂冰室（尖沙咀店）',n:'加連威老道 10 號加威中心地下 · 08:00–22:00 · 2259 9318 · 中秋排队留 40 分钟以上',p:'waso'},
+ {t:'2026-09-25T14:45:00+08:00',x:'莎莎 Sasa · 尖沙咀弥敦道店',n:'从华嫂往亞士厘道走约 300 米（4–5 分钟），顺路 · 弥敦道沿线（金馬倫道、寶勒巷）还有好几家 · 买完往北直接去九龙公园',p:'sasa'},
  {t:'2026-09-25T15:15:00+08:00',x:'九龙公园',n:'免费 · 从华嫂步行约 5 分钟 · 园内有百鸟苑和鸟湖',p:'kpark'},
  {t:'2026-09-25T16:15:00+08:00',x:'回柯士甸取行李',n:'取完走到文華樓约 8 分钟',p:'austin'},
  {t:'2026-09-25T16:30:00+08:00',x:'文華樓 入住',n:'Airbnb · 房东 Chole · 15:00 后可入住',p:'home'},
@@ -318,9 +325,10 @@ const D2=[
  {t:'2026-09-26T11:00:00+08:00',x:'退房',n:'文華樓 · 房东 11:00 退房',p:'home'},
  {t:'2026-09-26T11:20:00+08:00',x:'柯士甸站 寄存行李',n:'今天要玩到下午才进站，行李先存这儿，回西九龙站顺路取',p:'austin',b:'需提前订'},
  {t:'2026-09-26T12:00:00+08:00',x:'香港公园',n:'免费 · 中环／金钟之间 · 从佐敦坐荃湾线过海到中环再走上去',p:'hkpark'},
- {t:'2026-09-26T13:15:00+08:00',x:'中环摩天轮',n:'中环海滨 · 成人 $20 · 假期 11:00–23:00（最后入场为关门前 30 分钟）· 2339 0777',p:'wheel',b:'现场购票'},
- {t:'2026-09-26T14:30:00+08:00',x:'坚尼地城 拍「路的尽头是海」',n:'港岛线中环 → 坚尼地城约 12 分钟。C 出口出来走过足球场到篮球场，球场朝海那面围栏是最佳机位，要长焦',p:'kt'},
- {t:'2026-09-26T15:00:00+08:00',x:'开始回程',n:'坚尼地城 → 中环（港岛线）→ 佐敦（荃湾线）→ 柯士甸取行李 → 西九龙站'},
+ {t:'2026-09-26T13:15:00+08:00',x:'中环摩天轮',n:'中环海滨 · 成人 $20 · 假期 11:00–23:00（最后入场为关门前 30 分钟）· 2339 0777（13:45 前离开去快闪店）',p:'wheel',b:'现场购票'},
+ {t:'2026-09-26T13:50:00+08:00',x:'怪奇物语快闪店 · 中环',n:'德辅道中 39 号 皇后商业中心 G/F · 中环站 A 出口（环球大厦）出来往西约 130 米 · 每日 11:30–20:30、免费，只到 9/27 · 逛 40 分钟左右',p:'stpop',b:'9/27 结束'},
+ {t:'2026-09-26T14:40:00+08:00',x:'坚尼地城 拍「路的尽头是海」',n:'港岛线中环 → 坚尼地城约 12 分钟。C 出口出来走过足球场到篮球场，球场朝海那面围栏是最佳机位，要长焦',p:'kt'},
+ {t:'2026-09-26T15:25:00+08:00',x:'开始回程',n:'坚尼地城 → 中环（港岛线）→ 佐敦（荃湾线）→ 柯士甸取行李 → 西九龙站 · 比原来紧了 25 分钟，别再拖'},
  {t:'2026-09-26T16:30:00+08:00',x:'进西九龙站 · 一地两检',n:'18:00 发车 · 假期人多，留足 1 小时',p:'westkln',b:'别迟到'},
  {t:'2026-09-26T18:00:00+08:00',x:'G6524　香港西九龙 → 深圳北',n:'2 张 · 18:18 抵达深圳北',p:'westkln'},
  {t:'2026-09-26T18:50:00+08:00',x:'D676　深圳北 → 厦门',n:'2 张 · 换乘 32 分钟，入境手续已在西九龙办完 · 22:22 抵达厦门站',p:'szn'},
@@ -682,22 +690,22 @@ renderBooked();
 renderSched('s1',D1);
 renderSched('s2',D2);
 drawMap('bigmap',
-  [{k:['westkln','austin','simcity','waso','kpark','home','ymtps','tstpier','cenpier'],c:'--d1'},{k:['home','avstar','ausdairy','austin','hkpark','wheel','kt'],c:'--d2'}],
+  [{k:['westkln','austin','simcity','waso','sasa','kpark','home','ymtps','tstpier','cenpier'],c:'--d1'},{k:['home','avstar','ausdairy','austin','hkpark','wheel','stpop','kt'],c:'--d2'}],
   [{k:'simcity',n:'1',l:'星际城市',c:'--d1'},{k:'waso',n:'2',l:'华嫂冰室',c:'--d1'},{k:'kpark',n:'3',l:'九龙公园',c:'--d1',ldy:-9},
    {k:'ymtps',n:'4',l:'油麻地警署',c:'--d1'},{k:'tstpier',n:'5',l:'维港·天星小轮',c:'--d1'},
    {k:'hkccl',n:'灯',l:'中秋花灯',c:'--d1'},
-   {k:'avstar',n:'☀',l:'维港日出',c:'--d2'},{k:'hkpark',n:'7',l:'香港公园',c:'--d2'},{k:'wheel',n:'8',l:'摩天轮',c:'--d2'},{k:'kt',n:'9',l:'坚尼地城',c:'--d2'},
+   {k:'avstar',n:'☀',l:'维港日出',c:'--d2'},{k:'stpop',n:'闪',l:'怪奇物语快闪',c:'--d2'},{k:'hkpark',n:'7',l:'香港公园',c:'--d2'},{k:'wheel',n:'8',l:'摩天轮',c:'--d2'},{k:'kt',n:'9',l:'坚尼地城',c:'--d2'},
    {k:'home',n:'⌂',l:'住宿（两晚）'},{k:'austin',n:'▣'},{k:'cenpier',n:'☰'},{k:'westkln',n:'铁'}]);
-drawMap('map1',[{k:['westkln','austin','simcity','waso','kpark','home','ymtps','tstpier','cenpier'],c:'--d1'}],
+drawMap('map1',[{k:['westkln','austin','simcity','waso','sasa','kpark','home','ymtps','tstpier','cenpier'],c:'--d1'}],
   [{k:'simcity',n:'1',l:'买相机',c:'--d1'},{k:'waso',n:'2',l:'华嫂冰室',c:'--d1'},{k:'kpark',n:'3',l:'九龙公园',c:'--d1',ldy:-9},
    {k:'ymtps',n:'4',l:'油麻地警署',c:'--d1'},{k:'tstpier',n:'5',l:'维港',c:'--d1'},{k:'cenpier',n:'6',l:'落日飞车',c:'--d1'},
-   {k:'hkccl',n:'灯',l:'中秋花灯',c:'--d1'},
+   {k:'hkccl',n:'灯',l:'中秋花灯',c:'--d1'},{k:'sasa',n:'莎',l:'莎莎',c:'--d1'},
    {k:'austin',n:'▣'},{k:'home',n:'⌂',l:'住宿'},{k:'westkln',n:'铁'}]);
-drawMap('map2',[{k:['home','avstar','ausdairy','austin','hkpark','wheel','kt'],c:'--d2'},{k:['kt','austin','westkln'],c:'--d2',dash:true}],
-  [{k:'avstar',n:'☀',l:'维港日出',c:'--d2'},{k:'hkpark',n:'1',l:'香港公园',c:'--d2'},{k:'wheel',n:'2',l:'摩天轮',c:'--d2'},{k:'kt',n:'3',l:'坚尼地城',c:'--d2'},
+drawMap('map2',[{k:['home','avstar','ausdairy','austin','hkpark','wheel','stpop','kt'],c:'--d2'},{k:['kt','austin','westkln'],c:'--d2',dash:true}],
+  [{k:'avstar',n:'☀',l:'维港日出',c:'--d2'},{k:'stpop',n:'闪',l:'怪奇物语快闪',c:'--d2'},{k:'hkpark',n:'1',l:'香港公园',c:'--d2'},{k:'wheel',n:'2',l:'摩天轮',c:'--d2'},{k:'kt',n:'3',l:'坚尼地城',c:'--d2'},
    {k:'austin',n:'▣'},{k:'home',n:'⌂',l:'住宿（退房）'},{k:'westkln',n:'铁',l:'西九龙站'}]);
-const D1K=['westkln','austin','simcity','waso','kpark','home','ymtps','tstpier','cenpier'];
-const D2K=['home','avstar','ausdairy','austin','hkpark','wheel','kt','westkln'];
+const D1K=['westkln','austin','simcity','waso','sasa','kpark','home','ymtps','tstpier','cenpier'];
+const D2K=['home','avstar','ausdairy','austin','hkpark','wheel','stpop','kt','westkln'];
 document.getElementById('navD1').href=gLink(D1K);
 document.getElementById('navD2').href=gLink(D2K);
 document.getElementById('navD1g').href=gLink(D1K);
