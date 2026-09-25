@@ -10,7 +10,7 @@
 <style>
 :root{
   --water:#cfe4ec; --land:#f0e6d2; --landline:#c8b18a;
-  --d1:#d1731f; --d2:#1f7f96;
+  --d1:#d1731f; --d2:#1f7f96; --d3:#7a5cc4;
   --radius:16px;
 }
 html[data-theme="day"]{
@@ -18,7 +18,7 @@ html[data-theme="day"]{
   --text:#26221c; --muted:#7a6f5d; --line:#e2d8c4;
   --pill:#f3e3cd; --pilltx:#8a5a17;
   --water:#cfe4ec; --land:#f0e6d2; --landline:#c8b18a;
-  --d1:#d1731f; --d2:#1f7f96;
+  --d1:#d1731f; --d2:#1f7f96; --d3:#7a5cc4;
   --shadow:0 1px 2px rgba(90,70,40,.08),0 8px 24px rgba(90,70,40,.07);
 }
 html[data-theme="night"]{
@@ -26,7 +26,7 @@ html[data-theme="night"]{
   --text:#e9e6e0; --muted:#9a978f; --line:#2c313b;
   --pill:#2f3542; --pilltx:#ffcc8a;
   --water:#1a2733; --land:#232732; --landline:#3b4252;
-  --d1:#f0994a; --d2:#46b8d4;
+  --d1:#f0994a; --d2:#46b8d4; --d3:#a98ce8;
   --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 26px rgba(0,0,0,.35);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -182,6 +182,7 @@ footer{margin-top:34px;text-align:center;color:var(--muted);font-size:12px;line-
         <span>灯 中秋花灯</span>
         <span>☀ 维港日出</span>
         <span>☰ 落日飞车（中环码头上车 · 尖沙咀下车）</span>
+        <span>┅ H2K 行车路线（虚线）</span>
       </div>
       <div class="house">🏠 住宿：文華樓（油麻地渡船角 · 文匯街）· 9/25 入住、9/26 退房</div>
     </section>
@@ -233,7 +234,7 @@ footer{margin-top:34px;text-align:center;color:var(--muted);font-size:12px;line-
       <ul class="todo">
         <li><b>9/26 早上设 5:15 闹钟</b> —— 要去维港看日出（约 06:14），前一晚别熬太晚；起不来就取消，别硬撑。</li>
         <li><b>订两天的行李寄存</b> —— 柯士甸站／西九龙站附近的寄存点（存知己、途简单、行李记这类小程序都能查），约 20 元/天，营业时间 10:00–21:00。9/25 和 9/26 各一次。</li>
-        <li><b>落日飞车 H2K 怎么坐</b>：这是城巴的开篷观光巴士「夜赏香港」，<b>整条线是 85 分钟循环，所有班次都从中环天星码头开出——只有这一站能上车</b>。头班车 17:05，之后 17:30–22:30 每 30 分钟一班，尾班 22:30。走向是：中环码头 → 湾仔北 → 过海底隧道 → 庙街／佐敦 → <b>西九文化区</b> → 彌敦道 → 尖沙咀天星码头 → 尖东 → 再过隧道 → 湾仔 → 回到中环码头。单程 $47.6，夜游票 $114（当日任搭）。<b>回程到尖沙咀就下车</b>——人已经回到九龙了，比坐回中环码头再转车省 40 分钟。想坐露天位早点去排，中秋夜可能排很久。</li>
+        <li><b>落日飞车 H2K 怎么坐</b>：这是城巴的开篷观光巴士「夜赏香港」，<b>整条线是 85 分钟循环，所有班次都从中环天星码头开出——只有这一站能上车</b>。头班车 17:05，之后 17:30–22:30 每 30 分钟一班，尾班 22:30。走向是：中环码头 → 湾仔北 → 过海底隧道 → 庙街／佐敦 → <b>西九文化区</b> → 彌敦道 → 尖沙咀天星码头 → 尖东 → 再过隧道 → 湾仔 → 回到中环码头。单程 $47.6，夜游票 $114（当日任搭）。<b>回程到尖沙咀就下车</b>——人已经回到九龙了，比坐回中环码头再转车省 40 分钟。地图上那条紫色虚线就是它的走法（和天星小轮那条直线不是一回事）。想坐露天位早点去排，中秋夜可能排很久。</li>
         <li><b>出发前跟房东 Chole 确认入住方式</b> —— 门锁／密码怎么给，几点能联系上。</li>
         <li><b>准备支付方式</b> —— 港币现金 ＋ 八达通或支付宝 HK。华嫂冰室尖沙咀店在 OpenRice 上标的收款方式是现金／AlipayHK／支付宝／八达通，<b>没写微信支付</b>，别到门口才发现付不了。</li>
         <li><b>手机漫游或香港 eSIM</b> —— 全程要用地图导航，流量别断。</li>
@@ -292,7 +293,18 @@ const P={
   wheel:   {name:'中环摩天轮',             lat:22.28532,lng:114.16177,addr:'香港岛 中环海滨',tel:'2339 0777'},
   hkpark:  {name:'香港公园',               lat:22.27742,lng:114.16151,addr:'香港岛 中环／金钟 红棉路一带'},
   kt:      {name:'坚尼地城站 C 出口',      lat:22.28121,lng:114.12889,addr:'香港岛 坚尼地城（篮球场机位）'},
-  ymtps:   {name:'旧油麻地警署',           lat:22.30953,lng:114.16854,addr:'九龙 油麻地 廣東道627號'}
+  ymtps:   {name:'旧油麻地警署',           lat:22.30953,lng:114.16854,addr:'九龙 油麻地 廣東道627號'},
+  /* —— 落日飞车 H2K 沿线站点（坐标取自 OSM） —— */
+  cenhl:   {name:'中環海濱活動空間',        lat:22.28390,lng:114.16251,addr:'香港島 中環 龍和道'},
+  wcpier:  {name:'灣仔碼頭',                lat:22.28210,lng:114.17611,addr:'香港島 灣仔北 鴻興道'},
+  wcprom:  {name:'灣仔海濱長廊',            lat:22.28294,lng:114.17948,addr:'香港島 灣仔北'},
+  xht:     {name:'海底隧道（過海）',        lat:22.29300,lng:114.18025,addr:'維多利亞港 海底隧道'},
+  hunghom: {name:'康莊道（紅磡）',          lat:22.30319,lng:114.18018,addr:'九龍 紅磡灣 康莊道'},
+  gasc:    {name:'加士居道',                lat:22.30598,lng:114.17827,addr:'九龍 槍會山 加士居道'},
+  temple:  {name:'廟街（佐敦道）',          lat:22.30518,lng:114.16998,addr:'九龍 佐敦 佐敦道'},
+  icc:     {name:'環球貿易廣場',            lat:22.30338,lng:114.16023,addr:'九龍 西九龍 柯士甸道西1號'},
+  wkcd:    {name:'西九文化區',              lat:22.30110,lng:114.15751,addr:'九龍 西九文化區 博物館道'},
+  cameron: {name:'金馬倫道（彌敦道）',      lat:22.29901,lng:114.17217,addr:'九龍 尖沙咀 彌敦道'}
 };
 
 const D1=[
@@ -692,16 +704,20 @@ renderBooked();
 renderSched('s1',D1);
 renderSched('s2',D2);
 drawMap('bigmap',
-  [{k:['westkln','austin','simcity','waso','kpark','sasa','home','ymtps','tstpier','cenpier'],c:'--d1'},{k:['home','avstar','ausdairy','austin','hkpark','wheel','stpop','kt'],c:'--d2'}],
+  [{k:['westkln','austin','simcity','waso','kpark','sasa','home','ymtps','tstpier','cenpier'],c:'--d1'},
+   {k:['cenpier','cenhl','wcpier','wcprom','xht','hunghom','gasc','temple','icc','wkcd','cameron','tstpier'],c:'--d3',dash:true},
+   {k:['home','avstar','ausdairy','austin','hkpark','wheel','stpop','kt'],c:'--d2'}],
   [{k:'simcity',n:'1',l:'星际城市',c:'--d1'},{k:'waso',n:'2',l:'华嫂冰室',c:'--d1'},{k:'kpark',n:'3',l:'九龙公园',c:'--d1',ldy:-9},
    {k:'ymtps',n:'4',l:'油麻地警署',c:'--d1'},{k:'tstpier',n:'5',l:'维港／落日飞车下车',c:'--d1'},
-   {k:'hkccl',n:'灯',l:'中秋花灯',c:'--d1'},
+   {k:'hkccl',n:'灯',l:'中秋花灯',c:'--d1'},{k:'wcpier',n:'',l:'灣仔碼頭',c:'--d3'},{k:'wkcd',n:'',l:'西九文化區',c:'--d3'},
    {k:'avstar',n:'☀',l:'维港日出',c:'--d2'},{k:'stpop',n:'闪',l:'怪奇物语快闪',c:'--d2'},{k:'hkpark',n:'7',l:'香港公园',c:'--d2'},{k:'wheel',n:'8',l:'摩天轮',c:'--d2'},{k:'kt',n:'9',l:'坚尼地城',c:'--d2'},
    {k:'home',n:'⌂',l:'住宿（两晚）'},{k:'austin',n:'▣'},{k:'cenpier',n:'☰',l:'落日飞车上车'},{k:'westkln',n:'铁'}]);
-drawMap('map1',[{k:['westkln','austin','simcity','waso','kpark','sasa','home','ymtps','tstpier','cenpier'],c:'--d1'}],
+drawMap('map1',[{k:['westkln','austin','simcity','waso','kpark','sasa','home','ymtps','tstpier','cenpier'],c:'--d1'},
+   {k:['cenpier','cenhl','wcpier','wcprom','xht','hunghom','gasc','temple','icc','wkcd','cameron','tstpier'],c:'--d3',dash:true}],
   [{k:'simcity',n:'1',l:'买相机',c:'--d1'},{k:'waso',n:'2',l:'华嫂冰室',c:'--d1'},{k:'kpark',n:'3',l:'九龙公园',c:'--d1',ldy:-9},
    {k:'ymtps',n:'4',l:'油麻地警署',c:'--d1'},{k:'tstpier',n:'5',l:'维港／落日飞车下车',c:'--d1'},{k:'cenpier',n:'6',l:'落日飞车上车',c:'--d1'},
    {k:'hkccl',n:'灯',l:'中秋花灯',c:'--d1'},{k:'sasa',n:'莎',l:'莎莎',c:'--d1'},
+   {k:'wcpier',n:'',l:'灣仔碼頭',c:'--d3'},{k:'wkcd',n:'',l:'西九文化區',c:'--d3'},
    {k:'austin',n:'▣'},{k:'home',n:'⌂',l:'住宿'},{k:'westkln',n:'铁'}]);
 drawMap('map2',[{k:['home','avstar','ausdairy','austin','hkpark','wheel','stpop','kt'],c:'--d2'},{k:['kt','austin','westkln'],c:'--d2',dash:true}],
   [{k:'avstar',n:'☀',l:'维港日出',c:'--d2'},{k:'stpop',n:'闪',l:'怪奇物语快闪',c:'--d2'},{k:'hkpark',n:'1',l:'香港公园',c:'--d2'},{k:'wheel',n:'2',l:'摩天轮',c:'--d2'},{k:'kt',n:'3',l:'坚尼地城',c:'--d2'},
